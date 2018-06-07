@@ -18,13 +18,13 @@ var fs = require('fs');
 //第一个参数为要检测的文件或目录名，第二个参数是一个函数，接收两个参数
 // error 也不是文件也不是目录，错误信息
 // stats 检测到的文件或目录对象
-fs.stat('html',(error,stats)=>{
+fs.stat('html/index.txt',(error,stats)=>{
     if(error){
         console.log(error);
         return;
     }
 
-    
+
     //返回true  /  false
 
     // isFile()  是否是文件
