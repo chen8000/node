@@ -12,8 +12,10 @@ http.createServer((request,response)=>{
     if(request.url !== '/favicon.ico'){
 
         // 第一个参数是地址，第二个参数是true表示把get传值转换为对象
-        var query = url.parse(request.url,true);
-        console.log(query);
+        var result = url.parse(request.url,true);
+
+        //获取url的get传值
+        console.log(result.query.aid);
     }
     
     response.end();
