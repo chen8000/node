@@ -15,7 +15,7 @@ http.createServer((request,response)=>{
         var result = url.parse(request.url,true);
 
         //获取url的get传值
-        console.log(result.query.aid);
+        console.log(result.query.cid);
     }
     
     response.end();
