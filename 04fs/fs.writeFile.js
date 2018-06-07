@@ -26,11 +26,12 @@ var fs = require('fs');
 
 */ 
 
-//创建写入文件
+//创建写入文件 (如果没有这个文件，则创建，如果要创建的文件已经存在，则覆盖)
 //第一个参数为要创建的文件
-//第二个参数为要写入的内容
-//第三个参数接收一个异常参数
-fs.writeFile('writeFile.txt','zhenghui.chen 666',(err)=>{
+//第二个参数为设置文件的编码格式
+//第三个参数为要写入的内容
+//第四个参数接收一个异常参数
+fs.writeFile('writeFile.txt','utf8','zhenghui.chen 666',(err)=>{
     if(err){
         console.log(err)
         return;
