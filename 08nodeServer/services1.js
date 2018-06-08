@@ -5,7 +5,7 @@ const router = require('./module/router');
 //创建服务
 http.createServer((request, response) => {
     
-    router(request,response,'static');
+    router.statics(request,response,'static');
     
 }).listen(8000);
 

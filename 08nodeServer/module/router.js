@@ -9,13 +9,13 @@ const getmime = require('./getmime');
 const filterUrl = require('./filterUrl');
 
 
-module.exports = (request,response,loadPath) => {
+exports.statics = (request,response,loadPath) => {
 
     if(request.url !== '/favicon.ico'){
         console.log('访问');
 
         //拿到过滤后的url（把参数过滤掉）
-        let getName = filterUrl(request.url);
+        let getName = filterUrl.filterParameter(request.url);
         
         // 如果没有输入.html的请求，则返回index.html
         if(getName == '/'){
@@ -23,7 +23,7 @@ module.exports = (request,response,loadPath) => {
         }
 
         //拿到截取后的后缀名
-        let mimeName = getmime(getName);
+        let mimeName = getmime.rmPoint(getName);
 
         //输入了内容.html的请求
         fs.readFile(`${loadPath}/${getName}`, (err,stats) => {

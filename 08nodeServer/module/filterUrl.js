@@ -4,7 +4,7 @@
 
 const url = require('url');
 
-module.exports = (requestUrl) => {
+exports.filterParameter = (requestUrl) => {
     return url.parse(requestUrl).pathname;
 }
 

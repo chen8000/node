@@ -11,7 +11,7 @@ const fs = require('fs');
 
 
 
-module.exports = (getName) => {
+exports.rmPoint = (getName) => {
 
     //得到文件后缀名，
     let extname = path.extname(getName);
