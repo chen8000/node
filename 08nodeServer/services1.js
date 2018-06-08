@@ -30,6 +30,7 @@ http.createServer((request, response) => {
         //拿到截取后的后缀名
         let mimeName = getmime(getName);
 
+
         //输入了内容.html的请求
         fs.readFile('static/' + getName, (err,stats) => {
 
@@ -42,7 +43,7 @@ http.createServer((request, response) => {
                         return;
                     }
 
-                    response.writeHead(404, {'ContentType':'text/'+mimeName+';charset=utf-8'});
+                    response.writeHead(404, {'ContentType':`${mimeName};charset=utf-8`});
                     response.write(stats);
                     response.end();
 
@@ -53,7 +54,7 @@ http.createServer((request, response) => {
 
             //这三个要一起写
             //设置请求头
-            response.writeHead(200, {'ContentType':'text/'+mimeName+';charset=utf-8'});
+            response.writeHead(200, {'ContentType':`${mimeName};charset=utf-8`});
             //写入内容
             response.write(stats);
             //结束响应
