@@ -1,9 +1,35 @@
 const http = require('http');
-const router = require('../module/router');
+const url = require('url');
+const ejs = require('ejs');
+const router = require('../module/router');//静态路由模块（自定义）
 
 http.createServer((request, response) => {
 
-    router.statics(request,response,'static');
+    response.writeHead(200,{'ContentType':'text/html;charset=utf-8'});
+
+    let pathname = url.parse(request.url).pathname;
+
+    switch(pathname){
+        case '/login':
+
+            //模拟数据
+            let data = '我是从后台数据库里查出来的数据';
+
+
+            //第一个参数 要渲染的模版
+            //第二个参数 要渲染的数据
+            //第三个参数 回调函数
+            ejs.renderFile('views/login.ejs',{
+                msg:data
+            },(err, data) => {
+                response.end(data)
+            })
+        return; 
+    }
+
+    
+    
+
 
 }).listen(8000);
 
