@@ -1,6 +1,6 @@
 
 const http = require('http');
-const router = require('./module/router');
+const router = require('../module/router');
 
 //创建服务
 http.createServer((request, response) => {
