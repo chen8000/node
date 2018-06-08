@@ -10,6 +10,9 @@ const getmime = require('./module/getmime');
 //自定义模块  过滤url后面的参数
 const filterUrl = require('./module/filterUrl');
 
+
+
+//创建服务
 http.createServer((request, response) => {
     
 
@@ -26,11 +29,6 @@ http.createServer((request, response) => {
 
         //拿到截取后的后缀名
         let mimeName = getmime(getName);
-        
-        
-        // let getFilterUrl = ;
-
-        // console.log(getFilterUrl);
 
         //输入了内容.html的请求
         fs.readFile('static/' + getName, (err,stats) => {
