@@ -4,8 +4,8 @@ const http = require('http');
 //读取文件
 const fs = require('fs');
 
-//path模块(获取文件的后缀名  path.extname)
-const getmime = require('./getmime');
+//自定义模块(获取文件的后缀名  path.extname)
+const getmime = require('./module/getmime');
 
 http.createServer((request, response) => {
     
