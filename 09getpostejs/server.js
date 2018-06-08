@@ -15,13 +15,38 @@ http.createServer((request, response) => {
             //模拟数据
             let data = '我是从后台数据库里查出来的数据';
 
+            var passData = {
+                h:'<h2>这个是一个h2标签</h2>',
+                msg:data,
+                list:[
+                    {
+                        name:'zhenghui.chen',
+                        age:'18',
+                        happy:'666'
+                    },
+                    {
+                        name:'zhenghui.chen',
+                        age:'18',
+                        happy:'666'
+                    },
+                    {
+                        name:'zhenghui.chen',
+                        age:'18',
+                        happy:'666'
+                    },
+                    {
+                        name:'zhenghui.chen',
+                        age:'18',
+                        happy:'666'
+                    }
+                ]
+            }
+
 
             //第一个参数 要渲染的模版
             //第二个参数 要渲染的数据
             //第三个参数 回调函数
-            ejs.renderFile('views/login.ejs',{
-                msg:data
-            },(err, data) => {
+            ejs.renderFile('views/login.ejs',passData,(err, data) => {
                 response.end(data)
             })
         return; 
