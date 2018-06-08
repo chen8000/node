@@ -30,7 +30,7 @@ http.createServer((request, response) => {
         //拿到截取后的后缀名
         let mimeName = getmime(getName);
 
-
+        console.log(mimeName)
         //输入了内容.html的请求
         fs.readFile('static/' + getName, (err,stats) => {
 
