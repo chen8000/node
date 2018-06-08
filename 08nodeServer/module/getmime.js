@@ -6,7 +6,16 @@ module.exports = (getName) => {
     //得到文件后缀名，
     let extname = path.extname(getName);
     //截取字符串
-    return extname.slice(1) === 'js' ? 'javascript':extname.slice(1);
+    switch(extname){
+        case '.html' :
+            return 'html';
+        case '.css' :
+            return 'css';
+        case '.js' :
+            return 'javascript';
+        default :
+            return 'html';        
+    }
 }
 
 
