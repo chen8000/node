@@ -47,9 +47,24 @@ http.createServer((request, response) => {
             //第二个参数 要渲染的数据
             //第三个参数 回调函数
             ejs.renderFile('views/login.ejs',passData,(err, data) => {
-                response.end(data)
-            })
+
+                response.end(data);
+
+            });
         return; 
+
+        case '/dologin':
+
+            ejs.renderFile('views/dologin.ejs', {}, (err, data) => {
+
+                //接收get传值
+                console.log(url.parse(request.url,true).query);
+
+                response.end(data);
+
+            });
+
+        return;
     }
 
     
