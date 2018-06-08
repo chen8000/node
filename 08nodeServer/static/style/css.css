@@ -1,6 +1,7 @@
 div{
-    color:red;
-
+    color:orange;
+    font-size:40px;
+    font-weight:bold;
 }
 div:after{
     content:'whahahahahahahhaadkhf;alfja;lkdfgh;akdhf;ldashgoaid;hgjioadhg;kladhgv;kadbkv;';
