@@ -34,7 +34,7 @@ exports.rmPoint = (getName) => {
     // }); 
 
     //同步
-    let stats = fs.readFileSync('mime.json', 'utf8');
+    let stats = fs.readFileSync('../mime/mime.json', 'utf8');
 
     return JSON.parse(stats.toString())[extname] || 'text/html';
 }
