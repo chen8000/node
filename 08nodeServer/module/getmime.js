@@ -2,8 +2,11 @@
 //获取后缀名模块
 const path = require('path');
 const fs = require('fs');
-const events = require('events');
-const EventsEmitter = new events.EventEmitter();
+
+
+//事件广播和接收
+// const events = require('events');
+// const EventsEmitter = new events.EventEmitter();
 
 
 
