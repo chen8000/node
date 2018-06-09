@@ -7,6 +7,9 @@ http.createServer((request, response) => {
 
     response.writeHead(200,{'ContentType':'text/html;charset=utf-8'});
 
+    //获取get还是post
+    let reqMethod = request.method.toLowerCase();
+
     let pathname = url.parse(request.url).pathname;
 
     switch(pathname){
@@ -64,13 +67,37 @@ http.createServer((request, response) => {
         return; 
 
         case '/dologin':
-
+        
             ejs.renderFile('views/dologin.ejs', {}, (err, data) => {
 
-                //接收get传值
-                console.log(url.parse(request.url,true).query);
+                switch(reqMethod){
+                    case 'get' :
 
-                response.end(data);
+                        //get传值，打印到控制台
+                        console.log(url.parse(request.url,true).query);
+                        //向前台输出页面
+                        response.end(data);
+
+                    return;
+                    case 'post' :
+                        
+                        let result = '';
+                        //每次拿到数据触发
+                        request.on('data', (data) => {
+                            result += data;
+                        });
+                        //数据拿完后触发
+                        request.on('end', (err) => {
+                            
+                            //拿到数据，并输出到前端页面上
+                            response.end(result);
+
+                        });
+                        
+
+                    return;
+                }
+                
 
             });
 
@@ -78,10 +105,12 @@ http.createServer((request, response) => {
 
         default :
             
+            response.writeHead(404,{'ContentType':'text/html;charset=utf-8'});
+
             ejs.renderFile('views/404.ejs', {}, (err, data) => {
 
                 response.end(data);
-            })
+            });
         return;
 
 
