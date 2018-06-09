@@ -72,7 +72,7 @@ let server = () => {
                         }); 
                     break;
 
-                    case 'get' :
+                    default :
 
                         G[ method ][ pathname ] (request, response) ;
 
