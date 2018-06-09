@@ -10,6 +10,16 @@ http.createServer((request, response) => {
     let pathname = url.parse(request.url).pathname;
 
     switch(pathname){
+        case '/':
+
+            ejs.renderFile('views/index.ejs', {}, (err, data) => {
+
+                response.end(data);
+
+            });
+
+        return;
+
         case '/login':
 
             //模拟数据
@@ -65,6 +75,16 @@ http.createServer((request, response) => {
             });
 
         return;
+
+        default :
+            
+            ejs.renderFile('views/404.ejs', {}, (err, data) => {
+
+                response.end(data);
+            })
+        return;
+
+
     }
 
     
