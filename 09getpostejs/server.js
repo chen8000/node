@@ -1,7 +1,7 @@
 const http = require('http');
 const url = require('url');
 const ejs = require('ejs');
-const router = require('../module/router');//静态路由模块（自定义）
+const fs = require('fs');
 
 http.createServer((request, response) => {
 
@@ -88,9 +88,21 @@ http.createServer((request, response) => {
                         });
                         //数据拿完后触发
                         request.on('end', (err) => {
+
+                            //把拿到的post数据写入到postlogin.txt文件
+                            fs.appendFile('postLogin.txt', result + '\n', (err) => {
+                                if(err){
+                                    console.log(err);
+                                    return;
+                                }
+                                console.log('写入成功');
+                            });
                             
-                            //拿到数据，并输出到前端页面上
-                            response.end(result);
+                            //拿到数据,打印到控制台
+                            console.log(result);
+
+                            //提示登陆成功
+                            response.end('<script>alert("12222")</script>');
 
                         });
                         
