@@ -20,4 +20,15 @@ app.get('/newscontent/:aid', (request, response) => {
     let aid = request.params.aid;
     
     response.send('newscontent模块---'+aid);
+});
+
+//路由get传值
+app.get('/product', (request, response) => {
+
+    //获取get传值
+    let getquery = request.query;
+
+    console.log(getquery)
+
+    response.send('product---' + getquery.name);
 })
