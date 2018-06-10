@@ -2,6 +2,9 @@
 
 
 // express 中间件
+/*
+匹配路由之前或者匹配路由之后做的一些操作 -- 中间件
+*/
 
 const express = require('express');
 const app = new express();
