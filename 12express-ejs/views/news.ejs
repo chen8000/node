@@ -8,11 +8,17 @@
     
 </head>
 <body>
+    <!-- 引入公共部分文件 -->
+    <%- include public/header.ejs %>
+
+
     <h2>hello ejs</h2>
     <ul>
         <% for(var i = 0;i<list.length;i++) { %>
         <li><%= list[i] %></li>
         <% } %>
     </ul>
+
+    <%- include public/footer.ejs%>
 </body>
 </html>
