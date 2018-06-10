@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    login 这是一个login  ejs模版
+
+
+    <h2>登陆页面</h2>
+    <form action="/dologin" method="post">
+        <input type="text" name="username"><br/>
+        <input type="password" name="password"><br/>
+        <input type="submit">
+    </form>
+
+
+
+
+
+
+
+
+
+    <!-- 输出标签 -->
+    <%-h%>
+    <!-- 给模版绑定数据 -->
+    <h3> <%= msg %> </h3>
+    <ul>
+        <% for(i = 0;i<list.length;i++) {%>
+        <li>
+            <h2><%= list[i].name%></h2>
+            <p><%= list[i].age%></p>
+            <p><%= list[i].happy%></p>
+        </li>
+        <% }%>
+    </ul>
+</body>
+</html>
