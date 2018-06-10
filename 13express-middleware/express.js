@@ -37,3 +37,26 @@ app.get('/', (request,response) => {
 
     response.send('zhanghui.chen 666');
 });
+
+
+//路由中间件
+/*
+    写两个 news 路由，先匹配到第一个 news 路由，
+    然后做一些工作，做完后，
+    调用next()方法，
+    再向下继续执行下一个路由
+*/
+app.get('/news', (request, response, next) => {
+    
+    console.log('这个是路由中间件');
+    
+    next();
+
+});
+app.get('/news', (request, response) => {
+    response.send('真正的news路由')
+})
+
+
+
+
