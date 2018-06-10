@@ -24,7 +24,7 @@ app.get('/set', (request, response) => {
     //参数三 cookie的一些设置信息
 
     //maxAge 表示过期时间
-    response.cookie('username','zhanghui.chen---666',{maxAge:600000,path:'/news'});
+    response.cookie('username','zhanghui.chen---666',{maxAge:600000});
 
     response.send('设置cookie成功');
 
