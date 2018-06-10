@@ -25,7 +25,7 @@ app.get('/newscontent/:aid', (request, response) => {
 //路由get传值
 app.get('/product', (request, response) => {
 
-    //获取get传值
+    //获取get传值 
     let getquery = request.query;
 
     console.log(getquery)
