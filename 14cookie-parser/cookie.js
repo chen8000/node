@@ -24,11 +24,16 @@ app.get('/set', (request, response) => {
     //参数三 cookie的一些设置信息
 
     //maxAge 表示过期时间
-    response.cookie('username','zhanghui.chen---666',{maxAge:600000});
+    response.cookie('username','zhanghui.chen---666',{maxAge:600000,path:'/news'});
 
     response.send('设置cookie成功');
 
 });
+
+app.get('/news', (request, response) => {
+    console.log(request.cookies);
+    response.send('获取cookies成功');
+})
 
 //cookie的一些设置参数
 //都写到第三个参数的打括号里
@@ -40,9 +45,12 @@ domain --设置域名访问cookie
     -- 表示 只有www.aaa.com 可以访问到这个cookie
     
 maxAge  --设置过期时间
-secure  --值为 true 时 在 http 协议中是无效的，在 https 中才有效
+secure  --值为 true 时 在 http 协议中是无效的，在 https 中才有效  默认为false
+path --设置只有在指定目录下才有效  {path:'/news'} 表示只有在news目录下才能访问到cookie  
 httpOnly --（服务器端可以设置cookie，客户端不可以设置cookie）微软对cookie做的拓展，如果设置为true时，通过 js applet等将无法获取到cookie,防止xss攻击产生。
 
+
+signed --为true时对cookie进行加密，客户端是看不到的
 
 */
 
