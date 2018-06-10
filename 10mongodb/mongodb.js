@@ -14,7 +14,6 @@ const dbUrl = 'mongodb://localhost:27017/chen';
 const app = require('./module/expressRouter');
 
 // console.log(app())
-
 http.createServer(app).listen(8000);
 console.log('server running at 127.0.0.1:8000');
 
@@ -33,7 +32,7 @@ app.get('/add', (request, response) => {
         //给user表里添加数据
         //两个参数，第一个表示要增加的数据，第二个回调函数
         db.collection( 'user' ).insert( {
-            "name":"chen",
+            "name":"张昌",
             "age":26
 
         }, (err, result) => {
@@ -111,7 +110,40 @@ app.get('/delete', (request, response) => {
 
 
 //查
+app.get('/find', (request, response) => {
+    mongoClient.connect(dbUrl, (err, db) => {
+        if(err){
+            console.log(err);
+            console.log('连接数据库失败');
+        }
+        let list = [];
+        let result = db.collection('user').find();
 
+        //需要循环得到数据
+        result.each((err,doc) => {
+            if(err){
+                console.log(err);
+            }else{
+                //doc就是查询出来的数据
+                if(doc != null){
+                    list.push(doc);
+                }else{
+                    //循环完成后打印出查询出来的数据
+                    console.log(list);
+
+                    ejs.renderFile('./views/find.ejs', {list:list}, (err, data) => {
+                        if(err){
+                            console.log(err);
+                            return;
+                        }
+                        response.send(data);
+                    })
+                }
+            }
+        });
+
+    })
+})
 
 
 
