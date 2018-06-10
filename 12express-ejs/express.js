@@ -10,6 +10,9 @@ app.set('view engine', 'ejs');
 //修改模版文件路径  修改模版路径为static下找模版文件
 // app.set('views', _dirname + '/static');
 
+//配置静态服务
+app.use(express.static('static'));
+
 //监听8000端口
 app.listen(8000,'127.0.0.1');
 
