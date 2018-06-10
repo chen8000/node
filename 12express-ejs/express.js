@@ -14,6 +14,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('static'));
 
 //配置虚拟目录的静态服务
+//页面有请求public路径下的文件时，去static目录下去找
 app.use('/public',express.static('static'))
 
 
