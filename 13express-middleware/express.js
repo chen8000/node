@@ -31,7 +31,6 @@ app.use((request, response, next) => {
 
 
 
-
 app.get('/', (request,response) => {
 
 
@@ -45,6 +44,8 @@ app.get('/', (request,response) => {
     然后做一些工作，做完后，
     调用next()方法，
     再向下继续执行下一个路由
+
+    也可以使用   app.use('/news', (request, response, next) => {})
 */
 app.get('/news', (request, response, next) => {
     
@@ -55,7 +56,15 @@ app.get('/news', (request, response, next) => {
 });
 app.get('/news', (request, response) => {
     response.send('真正的news路由')
-})
+});
+
+// 错误处理中间件
+// 写到所有路由的最下面
+app.use((request, response) => {
+
+    // 指定响应状态 404 
+    response.status(404).send(`404`);
+});
 
 
 
