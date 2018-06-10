@@ -46,7 +46,6 @@ app.get('/add', (request, response) => {
             db.close();//最后需要关闭数据库
         })
     })
-
 });
 
 //修改
@@ -131,6 +130,7 @@ app.get('/find', (request, response) => {
                     //循环完成后打印出查询出来的数据
                     console.log(list);
 
+                    //渲染模版，把数据库里的模版渲染到find模版
                     ejs.renderFile('./views/find.ejs', {list:list}, (err, data) => {
                         if(err){
                             console.log(err);
