@@ -1,11 +1,15 @@
+
+// zhanghui.chen  666
 const http = require('http');
+const ejs = require('ejs');
 const url = require('url');
 
-const ejs = require('ejs');
+//************  注意数据库格式 2.2.30
+const mongoClient = require('mongodb').MongoClient; //引入mongodb
 
-//自定义路由模块
-
-
+//数据库的连接地址  chen是数据库的名称
+const dbUrl = 'mongodb://localhost:27017/chen';
+ 
 //自定义路由模块
 const app = require('./module/expressRouter');
 
@@ -13,6 +17,104 @@ const app = require('./module/expressRouter');
 
 http.createServer(app).listen(8000);
 console.log('server running at 127.0.0.1:8000');
+
+
+
+//定义一个增加数据的路由
+//增加
+app.get('/add', (request, response) => {
+    //连接数据库
+    mongoClient.connect(dbUrl, (err, db) => {
+        //如果连接失败
+        if( err ){
+            console.log( err );
+            console.log( '连接数据库失败' );
+        }
+        //给user表里添加数据
+        //两个参数，第一个表示要增加的数据，第二个回调函数
+        db.collection( 'user' ).insert( {
+            "name":"chen",
+            "age":26
+
+        }, (err, result) => {
+            if( err ) {
+                console.log(err);
+                console.log("增加数据失败");
+            }
+            console.log(result.ops)//打印出数据
+            response.send('good 666');
+
+            db.close();//最后需要关闭数据库
+        })
+    })
+
+});
+
+//修改
+app.get('/edit', (request, response) => {
+    
+    //连接数据库
+    mongoClient.connect(dbUrl, (err, db) => {
+
+        if(err){
+            console.log(err);
+            return;
+        }
+
+        //修改数据
+        db.collection('user').updateOne({"name":"chen"},{$set:{'age':41}}, (err, update) => {
+            if(err){
+                console.log(err);
+                return ;
+            }
+            console.log('修改数据成功');
+            console.log(update)
+            response.send();
+            db.close();
+        })
+
+    });
+
+})
+ 
+//删除
+app.get('/delete', (request, response) => {
+
+    //获取到url后面的参数
+    let getQuery = url.parse(request.url,true).query;
+    
+
+    
+
+    //连接数据库
+    mongoClient.connect(dbUrl, (err, db) => {
+        if(err){
+            console.log(err);
+            return;
+        }
+
+        //删除数据
+        db.collection('user').deleteOne({"name":getQuery.name}, (err, result) => {
+            if(err){
+                console.log(err);
+                return;
+            }
+            console.log('删除数据成功');
+
+            db.close();
+        })
+    })
+
+    response.send();
+})
+
+
+
+//查
+
+
+
+
 
 //登陆页面
 app.get('/login', (request,response) => {

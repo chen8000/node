@@ -24,7 +24,7 @@ let server = () => {
 
         //个response里添加一个send方法 
         response.send = (data) => {
-            response.writeHead(200,{'ContentType':'text/html;charset=utf-8'});
+            response.writeHead(200,{'ContentType':'text/html;charset=UTF-8'});
             response.end(data);
         };
         
