@@ -13,6 +13,10 @@ app.set('view engine', 'ejs');
 //配置静态服务
 app.use(express.static('static'));
 
+//配置虚拟目录的静态服务
+app.use('/public',express.static('static'))
+
+
 //监听8000端口
 app.listen(8000,'127.0.0.1');
 
