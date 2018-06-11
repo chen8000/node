@@ -22,6 +22,7 @@ app.get('/page', (request, response) => {
 
     //获取到地址兰里的cid
     let cid = request.query.cid;
+    
     //如果地址栏里没有传入 cid
     if(!cid){
         // 结束响应头后代码还会往下执行，需要return;
