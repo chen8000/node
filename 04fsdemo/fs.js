@@ -23,7 +23,6 @@ fs.readdir(filePath,(err, res) => {
     (function fsForEach(res, filePath){
         
         res.forEach((value, index, arr) => {
-
             if(err){
                 console.log(err);
                 return;
@@ -55,9 +54,11 @@ fs.readdir(filePath,(err, res) => {
                         return;
                     })
                 }
-                // fs .rename(filePath + '/' + value, filePath + '/' + filePath )
+                
                 // 是个文件  那么重命名这个文件    
                 if(stats.isFile()){
+                    
+                    // return;
                     //获取文件的后缀名
                     let suf = path.extname(value);
 
@@ -65,13 +66,11 @@ fs.readdir(filePath,(err, res) => {
                     let isFilePath = filePath + '/' + value;
 
                     //改完名的文件路径
-                    let toFilePath = filePath + '/' + path.parse(filePath).name + index + suf;
                     
-                    // console.log(filePath)
                     //重命名为此文件夹的名字
-                    fs.rename(isFilePath, toFilePath, (err) => {
+                    fs.rename(isFilePath, filePath + '/' + path.parse(filePath).name + index + suf, (err) => {
                         if(err){
-                            console.log(+err);
+                            console.log(err);
                             return;
                         }
                     });
