@@ -14,16 +14,19 @@ app.use(cookieParser());
 app.get('/', (request, response) => {
 
     //获取cookie值，并显示
-    let oid = request.cookies.oid;
-    response.send('首页' + oid);
+    let oid = request.cookies.oid || '';
+    response.send('zhanghui.chen666--: ' + oid);
 });
 
 app.get('/page', (request, response) => {
 
     //获取到地址兰里的cid
     let cid = request.query.cid;
+    //如果地址栏里没有传入 cid
     if(!cid){
-        response.send();
+        // 结束响应头后代码还会往下执行，需要return;
+        response.send('获取不到cid');
+        return;
     }
     //获取到cookie里存的oid
     let oid = request.cookies.oid;
