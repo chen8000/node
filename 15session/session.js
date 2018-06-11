@@ -4,13 +4,28 @@
 //express-session
 // session 没有过期时间，浏览器关闭后就会消失 
 
+/*
+    //销毁 session
+    request.session.destroy((err) => {
+
+    });
+
+    //设置 session
+    request.session.username = 'zhanghui666'
+
+    //获取 session
+    request.session.username
+
+    //重新设置cookie的过期时间
+    request.session.cookie.maxAge=5000 
+
+*/
+
 const express = require('express');
 const app = express();
 const session = require('express-session');
 
 app.listen(8000,'127.0.0.1');
-
-let sessingTime = 5000;
 
 
 //配置session的中间件
@@ -23,7 +38,7 @@ app.use(session({
     //cookie的所有参数都可以设置到这里 
     cookie:{
         secure:false,
-        maxAge:sessingTime  //设置过期时间
+        maxAge:5000  //设置过期时间
     }, //secure:true 表示只有在https协议下才可以访问这个cookie
 
     rolling:true // 每次用户刷新也就后重新设置cookie时间，只要用户在过期时间内刷新的页面，
