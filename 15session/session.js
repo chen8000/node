@@ -38,15 +38,30 @@ app.use(session({
     //cookie的所有参数都可以设置到这里 
     cookie:{
         secure:false,
-        maxAge:5000  //设置过期时间
+        maxAge:50000000  //设置过期时间
     }, //secure:true 表示只有在https协议下才可以访问这个cookie
 
     rolling:true // 每次用户刷新也就后重新设置cookie时间，只要用户在过期时间内刷新的页面，
                 // cookie就不会过期，过期时间从用户最后一次刷新开始计算
-}))
+}));
 
 
+//销毁 session
+app.get('/loginOut', (request, response) => {
 
+    //设置session为0 起到销毁session的作用
+    // request.session.cookie.maxAge = 0;
+
+    //调用销毁session的方法来销毁session
+    request.session.destroy((err) => {
+        if(err){
+            console.log(err);
+        }
+    });
+
+    response.send('退出登陆成功！');
+
+});
 
 
 
@@ -58,9 +73,6 @@ app.get('/', (request, response) => {
     }else{
         response.send('没有用户登陆');
     }
-
-
-    
 });
 
 app.get('/login', (request, response) => {
