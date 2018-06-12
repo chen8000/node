@@ -42,7 +42,9 @@ app.get('/product', (request, response) => {
 //增加商品列表
 app.get('/productadd', (request, response) => {
 
-    response.send('productAdd--增加商品列表');
+    response.render('productadd')
+
+    // response.send('productAdd--增加商品列表');
 });
 
 
@@ -58,7 +60,9 @@ app.get('/productedit', (request, response) => {
 //删除商品
 app.get('/productdelete', (request, response) => {
 
-    response.send('productdelete--删除商品')
+    response.render('productdelete')
+
+    // response.send('productdelete--删除商品')
 })
 
 
