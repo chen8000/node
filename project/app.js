@@ -62,19 +62,20 @@ app.post('/doLogin', (request, response) => {
                 console.log(err);
                 return;
             }
-            if(data.length >0 ){
+            if( data.length > 0 ){
                 console.log('登陆成功');
+                //跳转页面
+                response.redirect('/product');
+                
+                
             }else{
                 console.log('登陆失败');
-            }
 
+                response.end(`<script>alert('登陆失败'); location.href='/login'</script>`);
+            }
             db.close();
         })
-    })
-
-    // 
-
-    response.send();
+    });
 });
 
 
