@@ -16,7 +16,7 @@ app.use(express.static('static'));
 
 app.get('/', (request, response) => {
 
-    response.send('index');
+    response.send('首页');
 });
 
 
@@ -32,7 +32,9 @@ app.get('/login', (request, response) => {
 //商品列表
 app.get('/product', (request, response) => {
 
-    response.send('product--商品列表')
+    response.render('product');
+
+    // response.send('product--商品列表')
 });
 
 
@@ -47,7 +49,9 @@ app.get('/productadd', (request, response) => {
 //编辑商品
 app.get('/productedit', (request, response) => {
 
-    response.send('productedit--编辑商品');
+    response.render('productedit');
+
+    // response.send('productedit--编辑商品');
 });
 
 
@@ -60,17 +64,12 @@ app.get('/productdelete', (request, response) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.listen(8000,'127.0.0.1');
+
+
+
+
+
+
+
+
