@@ -42,7 +42,8 @@ app.get('/login', (request, response) => {
 app.post('/doLogin', (request, response) => {
 
     //1. 获取数据
-    let getPost = request.body;
+    // let getPost = request.body;
+
 
     // 链接数据库
     mongoClient.connect(dbUrl, (err, db) => {
@@ -51,24 +52,23 @@ app.post('/doLogin', (request, response) => {
             console.log(err);
             return;
         }
-        let list = [];
 
         //查询数据
-        let result = db.collection('user').find({"username":getPost.username,"password":getPost.password});
+        let result = db.collection('user').find(request.body);
 
-        result.each((err, doc) => {
+        //toArray来拿查出来的数据
+        result.toArray((err, data) => {
             if(err){
                 console.log(err);
                 return;
-            }else{
-                if(doc != null) {
-                    list.push(doc);
-                }else{
-                    //如果是空的证明没有查出来数据
-
-                    db.close();
-                }
             }
+            if(data.length >0 ){
+                console.log('登陆成功');
+            }else{
+                console.log('登陆失败');
+            }
+
+            db.close();
         })
     })
 
