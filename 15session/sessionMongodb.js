@@ -77,7 +77,7 @@ app.get('/loginOut', (request,  response) => {
         if(err){
             console.log(err)
         }
-    })
+    });
 
     response.send('销毁session');
 });
