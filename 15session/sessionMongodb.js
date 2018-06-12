@@ -40,6 +40,8 @@ app.use(session({
 
     rolling:true, // 每次用户刷新也就后重新设置cookie时间，只要用户在过期时间内刷新的页面，
                 // cookie就不会过期，过期时间从用户最后一次刷新开始计算
+
+    //把 session存储到数据库             
     store : new MongoStore({
         url:'mongodb://127.0.0.1:27017/student',
         touchAfter: 24 * 3600   // 这个熟悉表示在24小时内无论有多少次请求，数据是不会变的，除非你更改了这个数据
