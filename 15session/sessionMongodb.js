@@ -11,8 +11,6 @@
     store : new MongoStore({
         url:'mongodb://127.0.0.1:27017/student'  //数据库的地址
     })
-
-
 */ 
 
 
@@ -42,9 +40,9 @@ app.use(session({
 
     rolling:true, // 每次用户刷新也就后重新设置cookie时间，只要用户在过期时间内刷新的页面，
                 // cookie就不会过期，过期时间从用户最后一次刷新开始计算
-    store : new MongoStore({
-        url:'mongodb://127.0.0.1:27017/student'
-    })            
+    // store : new MongoStore({
+        // url:'mongodb://127.0.0.1:27017/student'
+    // })            
 }));
 
 app.get('/', (request, response) => {
