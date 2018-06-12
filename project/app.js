@@ -24,8 +24,8 @@ app.use(bodyParser.json())
 
 
 
-app.get('/', (request, response) => {
-
+app.get((request, response) => {
+    
     response.send('首页');
 });
 
@@ -71,7 +71,7 @@ app.post('/doLogin', (request, response) => {
             }else{
                 console.log('登陆失败');
 
-                response.end(`<script>alert('登陆失败'); location.href='/login'</script>`);
+                response.send(`<script>alert('登陆失败'); location.href='/login'</script>`);
             }
             db.close();
         })
