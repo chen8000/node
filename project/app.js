@@ -28,6 +28,13 @@ app.get('/login', (request, response) => {
     // response.send('login--用 户登陆');
 });
 
+// doLogin  获取登陆提交的数据
+app.post('/doLogin', (request, response) => {
+
+
+
+});
+
 
 //商品列表
 app.get('/product', (request, response) => {
