@@ -6,11 +6,21 @@
 const express = require('express');
 const app = express();
 
+//获取post提交的数据
+const bodyParser = require('body-parser');
+
+//链接数据库
+const mongoClient = require('mongodb').MongoClient;
+const dbUrl = 'mongodb://localhost:27017/productmanage';
+
 
 //使用ejs模版引擎
 app.set('view engine', 'ejs');
 
+//配置中间件
 app.use(express.static('static'));
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json())
 
 
 
@@ -31,8 +41,40 @@ app.get('/login', (request, response) => {
 // doLogin  获取登陆提交的数据
 app.post('/doLogin', (request, response) => {
 
+    //1. 获取数据
+    let getPost = request.body;
 
+    // 链接数据库
+    mongoClient.connect(dbUrl, (err, db) => {
 
+        if(err){
+            console.log(err);
+            return;
+        }
+        let list = [];
+
+        //查询数据
+        let result = db.collection('user').find({"username":getPost.username,"password":getPost.password});
+
+        result.each((err, doc) => {
+            if(err){
+                console.log(err);
+                return;
+            }else{
+                if(doc != null) {
+                    list.push(doc);
+                }else{
+                    //如果是空的证明没有查出来数据
+
+                    db.close();
+                }
+            }
+        })
+    })
+
+    // 
+
+    response.send();
 });
 
 
