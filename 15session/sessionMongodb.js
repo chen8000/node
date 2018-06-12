@@ -25,7 +25,7 @@ app.listen(8000,'127.0.0.1');
 const session = require('express-session');
 
 // 使用connect-mongo把session数据存到mongodb数据库里 ，需要把 session传进去
-const mongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo')(session);
 
 //配置session的中间件
 app.use(session({
@@ -65,10 +65,13 @@ app.get('/login', (request, response) => {
     response.send('设置session成功');
 });
 
+//销毁session
 app.get('/loginOut', (request,  response) => {
 
+    // 可以设置时间为0
     // request.session.cookie.maxAge = 0;
 
+    //可以调用 request.session.destroy() 方法来销毁session
     request.session.destroy((err) => {
 
         if(err){
@@ -76,7 +79,7 @@ app.get('/loginOut', (request,  response) => {
         }
     })
 
-    response.send('销毁session')
+    response.send('销毁session');
 });
 
 
