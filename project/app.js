@@ -171,7 +171,7 @@ app.post('/doProductAdd', (request, response) => {
         };
 
         //把信息保存到数据库里
-        db.insert('product', _files, (data) => {
+        db.insertOne('product', _files, (data) => {
             
             
         })
@@ -262,7 +262,7 @@ app.post('/doProductEdit', (request, response) => {
 
 
         //修改数据
-        db.update('product', {"_id":new db.ObjectID(fields._id[0])}, _files, (data) => {
+        db.updateOne('product', {"_id":new db.ObjectID(fields._id[0])}, _files, (data) => {
             
             // console.log(data)
 
@@ -300,7 +300,7 @@ app.get('/productdelete', (request, response) => {
     });
     
     //删除数据
-    db.delete('product', {'_id':new db.ObjectID(request.query.id)}, (data) => {
+    db.deleteOne('product', {'_id':new db.ObjectID(request.query.id)}, (data) => {
         response.redirect('/product');
     });
 

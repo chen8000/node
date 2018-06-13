@@ -24,7 +24,7 @@ let _connectDb = (collback) => {
 module.exports = {
 
     //增
-    insert: (collectionName, json, collback) => {
+    insertOne: (collectionName, json, collback) => {
 
         _connectDb( (db) => {
     
@@ -42,7 +42,7 @@ module.exports = {
     },
 
     //删
-    delete: (collectionName, json, collback) => {
+    deleteOne: (collectionName, json, collback) => {
 
         _connectDb( (db) => {
     
@@ -61,7 +61,7 @@ module.exports = {
     },
 
     //改
-    update: (collectionName, json1, json2, collback) => {
+    updateOne: (collectionName, json1, json2, collback) => {
 
         _connectDb( (db) => {
             db.collection(collectionName).updateOne(json1, {$set:json2}, (err, data) => {
