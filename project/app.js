@@ -51,11 +51,11 @@ app.use(session({
 app.use((request, response, next) => {
 
     if(request.url == "/login" || request.url == '/doLogin'){
-        console.log("+++++++++"+request.session.userInfo)
+        
         next();
     }else{
         //判断有没有登陆
-        console.log("--------"+request.session.userInfo)
+        
         if(request.session.userInfo && request.session.userInfo.username !== ''){
             
             //设置全局数据
