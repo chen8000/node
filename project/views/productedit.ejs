@@ -19,11 +19,16 @@
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive input-form">
-                        <form action="/doAdd" method="post" enctype="multipart/form-data">
+                        <form action="/doProductEdit" method="post" enctype="multipart/form-data">
                             <ul>
+                                <input type="hidden" name="_id" value="<%= list._id%>">
                                 <li>  商品名称: <input type="text" name="title" value="<%= list.title%>"/></li>
 
-                                <li>  商品图片: <img width="30px" style="margin-right:20px; margin-left:5px;" src="<%= list.pic%>" alt=""><input type="file" name="pic"/></li>
+                                <li>  商品图片:<input type="file" name="pic"/><br/><br/> 
+                                    <img width="30px" style="margin-right:20px; margin-left:5px;" src="<%= list.pic%>" alt="">
+                                    <input type="hidden" name="picOriginal" value="<%= list.pic%>">
+                                    <br/><br/> 
+                                </li>
                                 <li>  商品价格: <input type="text" name="price" value="<%= list.price%>"/></li>
                                 <li>  商品邮费: <input type="text" name="fee" value="<%= list.fee%>"/></li>
                                 <li>
@@ -37,10 +42,6 @@
                                 </li>
 
                             </ul>
-
-
-                            
-
                         </form>
                     </div>
                 </div>

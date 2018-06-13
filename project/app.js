@@ -7,6 +7,7 @@ const express = require('express');
 const app = express();
 const session = require('express-session');
 const md5 = require('md5-node');// md5加密
+const fs = require('fs');
 
 //获取post提交的数据
 const bodyParser = require('body-parser');
@@ -116,13 +117,10 @@ app.post('/doLogin', (request, response) => {
 //商品列表
 app.get('/product', (request, response) => {
     //去数据库里查数据
+    
     db.find('product', {}, (data) => {
         
-        if(data.length > 0){
-
-            response.render('product', {list:data});
-            
-        };
+        response.render('product', {list:data});
     });
 });
 
@@ -209,17 +207,103 @@ app.get('/productedit', (request, response) => {
     // response.send('productedit--编辑商品');
 });
 
+// 编辑完成后提交一个地址
+app.post('/doProductEdit', (request, response) => {
+
+
+    //获取提交的数据以及图片信息
+    const form = new multiparty.Form();
+
+    form.uploadDir = 'upload' //图片保存的地址
+
+    form.parse(request, function(err, fields, files) {
+
+        if(err){
+            console.log(err);
+            return;
+        }
+
+        // fields  表单提交上来的信息
+        // files 图片上传成功后提交的信息
+
+        // 获取数据
+        //  { title: [ '商品描述:' ],
+        //   price: [ '商品描述:' ],
+        //   fee: [ '商品描述:' ],
+        //   description: [ '商品描述:' ] }
+
+        //提交过来的信息
+        let _files = {
+            title : fields.title[0],
+            price : fields.price[0],
+            fee : fields.fee[0],
+            description : fields.description[0],
+            pic : ((path)=>{
+
+                //判断是否修改了图片
+                //如果没有修改，图片地址为原图片地址
+                if(!files.pic[0].originalFilename){
+
+                    //删除生成的无用图片
+                    fs.unlink(files.pic[0].path, (err) => {
+                        if(err){
+                            console.log(err);
+                        }
+                    });
+                    
+                    return fields.picOriginal[0];
+                    //如果修改了就拿最新的地址
+                }else{
+                    return path;
+                }
+                
+            })(files.pic[0].path)
+        };
+
+
+        //修改数据
+        db.update('product', {"_id":new db.ObjectID(fields._id[0])}, _files, (data) => {
+            
+            // console.log(data)
+
+            response.redirect('product');
+        })
+
+        // 图片信息(地址)
+
+        
+
+        // 图片信息
+        // { pic:[ { fieldName: 'pic',
+        //        originalFilename: '175_03.png',
+        //        path: 'upload/6AL02SHRrm2KnU21W8vfDNmw.png',
+        //        headers: [Object],
+        //        size: 237946 } 
+            //] }
+
+        
+      
+        //获取提交的数据以及图片上传成功后返回的图片信息
+    });
+})
+
 
 //删除商品
 app.get('/productdelete', (request, response) => {
 
 
-    // 删除数据
-    db.delete('product', {'title':'iphone4'}, (data) => {
+    //删除服务器上的图片
+    fs.unlink(request.query.picPath, (err) =>{
+        if(err){
+            console.log(err);
+        }
+    });
+    
+    //删除数据
+    db.delete('product', {'_id':new db.ObjectID(request.query.id)}, (data) => {
         response.redirect('/product');
     });
 
-    
 
     // response.send('productdelete--删除商品')
 });
