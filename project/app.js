@@ -116,8 +116,7 @@ app.get('/product', (request, response) => {
         if(data.length > 0){
 
             response.render('product', {list:data});
-
-            console.log(data);
+            
         };
     });
 });
@@ -145,7 +144,13 @@ app.get('/productedit', (request, response) => {
 //删除商品
 app.get('/productdelete', (request, response) => {
 
-    response.render('productdelete')
+
+    // 删除数据
+    db.delete('product', {'title':'iphone4'}, (data) => {
+        response.redirect('/product');
+    });
+
+    
 
     // response.send('productdelete--删除商品')
 });

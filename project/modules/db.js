@@ -19,26 +19,87 @@ let _connectDb = (collback) => {
     })
 };
 
-exports.find = (collectionName, json, collback) => {
+module.exports = {
 
-    _connectDb((db) => {
-        //查
-        let result = db.collection(collectionName).find(json);
+    //增
+    insert: (collectionName, json, collback) => {
 
-        
-        result.toArray((err, data) => {
-
-            if(err){
-                console.log(err);
-                return;
-            }
-            // 回调函数，把数据和err传回去
-            collback(data);
-
-            
+        _connectDb( (db) => {
+    
+            db.collection(collectionName).insertOne(json, (err, data) => {
+                if(err){
+                    console.log(err);
+                    return;
+                }
+                collback(data);
+    
+                //关闭数据库
+                db.close();
+            });
         });
+    },
 
-        //关闭数据库
-        db.close();
-    });
+    //删
+    delete: (collectionName, json, collback) => {
+
+        _connectDb( (db) => {
+    
+            db.collection(collectionName).deleteOne(json, (err, data) => {
+                if(err) {
+                    console.log(err);
+                    return;
+                }
+                
+                collback(data);
+    
+                //关闭数据库
+                db.close();
+            })
+        });
+    },
+
+    //改
+    update: (collectionName, json1, json2, collback) => {
+
+        _connectDb( (db) => {
+            db.collection(collectionName).updateOne(json1, {$set:json2}, (err, data) => {
+    
+                if(err){
+                    console.log(err);
+                    return;
+                }
+    
+                collback(data);
+    
+                //关闭数据库
+                db.close();
+            })
+        });
+    },
+
+    //查
+    find: (collectionName, json, collback) => {
+
+        _connectDb( (db) => {
+            //查
+            let result = db.collection(collectionName).find(json);
+    
+            
+            result.toArray((err, data) => {
+    
+                if(err){
+                    console.log(err);
+                    return;
+                }
+                // 回调函数，把数据和err传回去
+                collback(data);
+    
+                //关闭数据库
+                db.close();
+            });
+        });
+    }
+
+    //--
 };
+
