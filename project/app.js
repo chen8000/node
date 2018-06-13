@@ -9,7 +9,7 @@ const session = require('express-session');
 const md5 = require('md5-node');// md5加密
 
 //获取post提交的数据
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 
 //图片上传模块
 const multiparty = require('multiparty');
@@ -129,10 +129,70 @@ app.get('/product', (request, response) => {
 //增加商品列表
 app.get('/productadd', (request, response) => {
 
-    response.render('productadd')
+    //实现图片上传
+
+
+    response.render('productadd');
 
     // response.send('productAdd--增加商品列表');
 });
+
+//获取提交的数据
+app.post('/doProductAdd', (request, response) => {
+
+    //获取提交的数据以及图片信息
+    const form = new multiparty.Form();
+
+    form.uploadDir = 'upload' //图片保存的地址
+
+    form.parse(request, function(err, fields, files) {
+
+        if(err){
+            console.log(err);
+            return;
+        }
+
+        // fields  表单提交上来的信息
+        // files 图片上传成功后提交的信息
+
+        // 获取数据
+        //  { title: [ '商品描述:' ],
+        //   price: [ '商品描述:' ],
+        //   fee: [ '商品描述:' ],
+        //   description: [ '商品描述:' ] }
+
+        //提交过来的信息
+        let _fields = {
+            title : fields.title[0],
+            price : fields.price[0],
+            fee : fields.fee[0],
+            description : fields.description[0],
+            picPath : files.pic[0].path
+        };
+
+        //把信息保存到数据库里
+        db.insert('product', _fields, (data) => {
+            
+            
+        })
+
+        // 图片信息(地址)
+
+        response.redirect('productadd');
+
+        // 图片信息
+        // { pic:[ { fieldName: 'pic',
+        //        originalFilename: '175_03.png',
+        //        path: 'upload/6AL02SHRrm2KnU21W8vfDNmw.png',
+        //        headers: [Object],
+        //        size: 237946 } 
+            //] }
+
+        
+      
+        //获取提交的数据以及图片上传成功后返回的图片信息
+    });
+})
 
 
 //编辑商品
