@@ -12,7 +12,7 @@ const md5 = require('md5-node');// md5加密
 const bodyParser = require('body-parser');
 
 //链接数据库
-const mongoClient = require('mongodb').MongoClient;
+const MongoClient = require('mongodb').MongoClient;
 const dbUrl = 'mongodb://localhost:27017/productmanage';
 
 
@@ -89,7 +89,7 @@ app.post('/doLogin', (request, response) => {
     request.body.password = md5(request.body.password);
 
     // 链接数据库
-    mongoClient.connect(dbUrl, (err, db) => {
+    MongoClient.connect(dbUrl, (err, db) => {
 
         if(err){
             console.log(err);
@@ -128,7 +128,41 @@ app.post('/doLogin', (request, response) => {
 //商品列表
 app.get('/product', (request, response) => {
 
-    response.render('product');
+
+    //链接数据库查询数据
+    MongoClient.connect(dbUrl, (err, db) => {
+        if(err) {
+            console.log(err);
+            return;
+        }
+
+        let result = db.collection('product').find();
+
+        result.toArray((err, data) => {
+            if(err){
+                console.log(err);
+                return;
+            }
+            if(data.length > 0){
+
+                // [ { _id: 5b20bc51142ada4f09182bce,
+                //     title: 'iphoneX',
+                //     price: 8000,
+                //     fee: 20,
+                //     pic: '' },
+                //   { _id: 5b20bc86142ada4f09182bcf,
+                //     title: 'iphone4',
+                //     price: 8000,
+                //     fee: 22,
+                //     pic: '' } ]
+
+                response.render('product', {list:data});
+
+                console.log(data);
+            }
+            db.close()
+        })
+    })
 
     // response.send('product--商品列表')
 });
