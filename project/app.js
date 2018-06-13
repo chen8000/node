@@ -9,7 +9,10 @@ const session = require('express-session');
 const md5 = require('md5-node');// md5加密
 
 //获取post提交的数据
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
+
+//图片上传模块
+const multiparty = require('multiparty');
 
 //链接数据库
 const db = require('./modules/db');
