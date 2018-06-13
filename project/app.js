@@ -6,6 +6,7 @@
 const express = require('express');
 const app = express();
 const session = require('express-session');
+const md5 = require('md5-node');// md5加密
 
 //获取post提交的数据
 const bodyParser = require('body-parser');
@@ -84,6 +85,8 @@ app.post('/doLogin', (request, response) => {
     //1. 获取数据
     // let getPost = request.body;
 
+    //对密码进行加密
+    request.body.password = md5(request.body.password);
 
     // 链接数据库
     mongoClient.connect(dbUrl, (err, db) => {
