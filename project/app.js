@@ -199,9 +199,13 @@ app.post('/doProductAdd', (request, response) => {
 
 //编辑商品
 app.get('/productedit', (request, response) => {
+    
+    //根据数据库里的自增id查询数据需要使用  ObjectID 模块
+    
+    db.find('product', {"_id":new db.ObjectID(request.query.id)}, (data) => {
 
-    response.render('productedit');
-
+        response.render('productedit', {list:data[0]});
+    })
     // response.send('productedit--编辑商品');
 });
 

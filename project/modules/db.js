@@ -3,6 +3,8 @@
 const MongoClient = require('mongodb').MongoClient;
 const dbUrl = 'mongodb://localhost:27017/productmanage';
 
+const ObjectID = require('mongodb').ObjectID;
+
 let _connectDb = (collback) => {
 
     MongoClient.connect(dbUrl, (err, db) => {
@@ -98,7 +100,10 @@ module.exports = {
                 db.close();
             });
         });
-    }
+    },
+
+    // 暴露 ObjectID 用来获取数据库里的 _id （自增id）
+    ObjectID
 
     //--
 };
