@@ -23,6 +23,8 @@ app.set('view engine', 'ejs');
 
 //配置中间件
 app.use(express.static('static'));
+app.use('/upload',express.static('upload'));
+
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
@@ -162,16 +164,16 @@ app.post('/doProductAdd', (request, response) => {
         //   description: [ '商品描述:' ] }
 
         //提交过来的信息
-        let _fields = {
+        let _files = {
             title : fields.title[0],
             price : fields.price[0],
             fee : fields.fee[0],
             description : fields.description[0],
-            picPath : files.pic[0].path
+            pic : files.pic[0].path
         };
 
         //把信息保存到数据库里
-        db.insert('product', _fields, (data) => {
+        db.insert('product', _files, (data) => {
             
             
         })

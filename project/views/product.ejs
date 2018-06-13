@@ -39,20 +39,20 @@
                 <table class="table table-striped ">
                     <thead>
                     <tr>
-                        <th>编号</th>
-                        <th>图标</th>
-                        <th>名称</th>
-                        <th>价格</th>
-                        <th>邮费</th>
+                        <th width="5%">编号</th>
+                        <th width="10%">图标</th>
+                        <th width="25%">名称</th>
+                        <th width="20%">价格</th>
+                        <th width="20%">邮费</th>
                        
-                        <th class="text-center">操作</th>
+                        <th width="20%" class="text-center">操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <% for(var i = 0;i<list.length;i++) {%>
                         <tr>
                             <td><%= i+1%></td>
-                            <td>111111</td>
+                            <td><img style="width:20px;" src='<%= list[i].pic%>' alt=""></td>
                             <td><%= list[i].title%></td>
                             <td><%= list[i].price%></td>
                             <td><%= list[i].fee%></td>
