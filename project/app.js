@@ -66,24 +66,6 @@ app.use((request, response, next) => {
             response.redirect('/login');
         }
     } 
-
-
-
-        //console.log(req.url);
-    //next();
-    // if(request.url=='/login' || request.url=='/doLogin'){
-    //     next();
-
-    // }else{
-
-    //     if(request.session.userinfo&&request.session.userinfo.username!=''){   /*判断有没有登录*/
-
-    //         app.locals['userinfo']=request.session.userinfo;   /*配置全局变量  可以在任何模板里面使用*/
-    //         next();
-    //     }else{
-    //         response.redirect('/login')
-    //     }
-    // }
 });
 
 
