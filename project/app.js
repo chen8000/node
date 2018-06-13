@@ -12,8 +12,7 @@ const md5 = require('md5-node');// md5加密
 const bodyParser = require('body-parser');
 
 //链接数据库
-const MongoClient = require('mongodb').MongoClient;
-const dbUrl = 'mongodb://localhost:27017/productmanage';
+const db = require('./modules/db');
 
 
 //使用ejs模版引擎
@@ -88,83 +87,39 @@ app.post('/doLogin', (request, response) => {
     //对密码进行加密
     request.body.password = md5(request.body.password);
 
-    // 链接数据库
-    MongoClient.connect(dbUrl, (err, db) => {
+    //查询数据
+    db.find('user', request.body, (data) => {
+        
+        if( data.length > 0 ){
+            console.log('登陆成功');
 
-        if(err){
-            console.log(err);
-            return;
+            //登陆成功后保存用户信息
+            request.session.userInfo = data[0];
+            //跳转页面
+            response.redirect('/product');
+            
+            
+        }else{
+            console.log('登陆失败');
+
+            response.send(`<script>alert('登陆失败'); location.href='/login'</script>`);
         }
-
-        //查询数据
-        let result = db.collection('user').find(request.body);
-
-        //toArray来拿查出来的数据
-        result.toArray((err, data) => {
-            if(err){
-                console.log(err);
-                return;
-            }
-            if( data.length > 0 ){
-                console.log('登陆成功');
-
-                //登陆成功后保存用户信息
-                request.session.userInfo = data[0];
-                //跳转页面
-                response.redirect('/product');
-                
-                
-            }else{
-                console.log('登陆失败');
-
-                response.send(`<script>alert('登陆失败'); location.href='/login'</script>`);
-            }
-            db.close();
-        })
     });
 });
 
 
 //商品列表
 app.get('/product', (request, response) => {
+    //去数据库里查数据
+    db.find('product', {}, (data) => {
+        
+        if(data.length > 0){
 
+            response.render('product', {list:data});
 
-    //链接数据库查询数据
-    MongoClient.connect(dbUrl, (err, db) => {
-        if(err) {
-            console.log(err);
-            return;
-        }
-
-        let result = db.collection('product').find();
-
-        result.toArray((err, data) => {
-            if(err){
-                console.log(err);
-                return;
-            }
-            if(data.length > 0){
-
-                // [ { _id: 5b20bc51142ada4f09182bce,
-                //     title: 'iphoneX',
-                //     price: 8000,
-                //     fee: 20,
-                //     pic: '' },
-                //   { _id: 5b20bc86142ada4f09182bcf,
-                //     title: 'iphone4',
-                //     price: 8000,
-                //     fee: 22,
-                //     pic: '' } ]
-
-                response.render('product', {list:data});
-
-                console.log(data);
-            }
-            db.close()
-        })
-    })
-
-    // response.send('product--商品列表')
+            console.log(data);
+        };
+    });
 });
 
 
