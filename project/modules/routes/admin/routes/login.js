@@ -46,6 +46,17 @@ router.post('/doLogin', (request, response) => {
 
 })
 
+//退出登陆
+router.get('/loginOut', (request, response) => {
+    
+    request.session.destroy((err) => {
+        if(err){
+            console.log(err);
+        }
+        response.redirect('/admin/login');
+    });
+});
+
 
 module.exports = router;
 

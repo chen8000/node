@@ -146,7 +146,7 @@ router.post('/doEdit', (request, response) => {
             
             // console.log(data)
 
-            response.redirect('/admin/product/index');
+            response.redirect('/admin/product');
         })
 
         // 图片信息(地址)
@@ -175,7 +175,7 @@ router.get('/delete', (request, response) => {
     
     //删除数据
     db.deleteOne('product', {'_id':new db.ObjectID(request.query.id)}, (data) => {
-        response.redirect('/admin/product/index');
+        response.redirect('/admin/product');
     });
 
 
