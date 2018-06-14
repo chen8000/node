@@ -1,22 +1,11 @@
 
-
-// zhanghui.chen -- 666
-
-
 const express = require('express');
 const app = express();
 const session = require('express-session');
-const md5 = require('md5-node');// md5加密
-const fs = require('fs');
+// const router = express.Router();
 
-//获取post提交的数据
-const bodyParser = require('body-parser');
-
-//图片上传模块
-const multiparty = require('multiparty');
-
-//链接数据库
-const db = require('./modules/mongodb/db');
+const admin = require('./modules/routes/admin/admin');
+const index = require('./modules/routes/index/index');
 
 
 //使用ejs模版引擎
@@ -25,9 +14,6 @@ app.set('view engine', 'ejs');
 //配置中间件
 app.use(express.static('static'));
 app.use('/upload',express.static('upload'));
-
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
 
 //配置session的中间件
 app.use(session({
@@ -52,237 +38,11 @@ app.use(session({
     // })            
 }));
 
+// 配置中间件，加载对应的路由
+app.use('/', index);
+app.use('/admin', admin);
 
-//自定义中间件，判断用户是否登陆
-app.use((request, response, next) => {
-
-    if(request.url == "/login" || request.url == '/doLogin'){
-        
-        next();
-    }else{
-        //判断有没有登陆
-        
-        if(request.session.userInfo && request.session.userInfo.username !== ''){
-            
-            //设置全局数据
-            app.locals['userinfo'] = request.session.userInfo;
-            
-            next();
-        }else{
-            response.redirect('/login');
-        }
-    } 
-});
-
-
-
-// 用户登陆的路由
-app.get('/login', (request, response) => {
-
-    response.render('login');
-
-    // response.send('login--用 户登陆');
-});
-
-// doLogin  获取登陆提交的数据
-app.post('/doLogin', (request, response) => {
-
-});
-
-
-//商品列表
-app.get('/product', (request, response) => {
-    
-});
-
-
-
-//增加商品列表
-app.get('/productadd', (request, response) => {
-
-    //实现图片上传
-
-
-    // response.render('productadd');
-
-    // response.send('productAdd--增加商品列表');
-});
-
-//获取提交的数据
-app.post('/doProductAdd', (request, response) => {
-
-    //获取提交的数据以及图片信息
-    const form = new multiparty.Form();
-
-    form.uploadDir = 'upload' //图片保存的地址
-
-    form.parse(request, function(err, fields, files) {
-
-        if(err){
-            console.log(err);
-            return;
-        }
-
-        // fields  表单提交上来的信息
-        // files 图片上传成功后提交的信息
-
-        // 获取数据
-        //  { title: [ '商品描述:' ],
-        //   price: [ '商品描述:' ],
-        //   fee: [ '商品描述:' ],
-        //   description: [ '商品描述:' ] }
-
-        //提交过来的信息
-        let _files = {
-            title : fields.title[0],
-            price : fields.price[0],
-            fee : fields.fee[0],
-            description : fields.description[0],
-            pic : files.pic[0].path
-        };
-
-        //把信息保存到数据库里
-        db.insertOne('product', _files, (data) => {
-            
-            response.redirect('productadd');
-        })
-
-        
-
-        // 图片信息
-        // { pic:[ { fieldName: 'pic',
-        //        originalFilename: '175_03.png',
-        //        path: 'upload/6AL02SHRrm2KnU21W8vfDNmw.png',
-        //        headers: [Object],
-        //        size: 237946 } 
-            //] }
-
-        
-      
-        //获取提交的数据以及图片上传成功后返回的图片信息
-    });
-})
-
-
-//编辑商品
-app.get('/productedit', (request, response) => {
-    
-    //根据数据库里的自增id查询数据需要使用  ObjectID 模块
-    
-    // db.find('product', {"_id":new db.ObjectID(request.query.id)}, (data) => {
-
-    //     response.render('productedit', {list:data[0]});
-    // })
-    // response.send('productedit--编辑商品');
-});
-
-// 编辑完成后提交一个地址
-app.post('/doProductEdit', (request, response) => {
-
-
-    //获取提交的数据以及图片信息
-    const form = new multiparty.Form();
-
-    form.uploadDir = 'upload' //图片保存的地址
-
-    form.parse(request, function(err, fields, files) {
-
-        if(err){
-            console.log(err);
-            return;
-        }
-
-        // fields  表单提交上来的信息
-        // files 图片上传成功后提交的信息
-
-        // 获取数据
-        //  { title: [ '商品描述:' ],
-        //   price: [ '商品描述:' ],
-        //   fee: [ '商品描述:' ],
-        //   description: [ '商品描述:' ] }
-
-        //提交过来的信息
-        let _files = {
-            title : fields.title[0],
-            price : fields.price[0],
-            fee : fields.fee[0],
-            description : fields.description[0],
-            pic : ((path)=>{
-
-                //判断是否修改了图片
-                //如果没有修改，图片地址为原图片地址
-                if(!files.pic[0].originalFilename){
-
-                    //删除生成的无用图片
-                    fs.unlink(files.pic[0].path, (err) => {
-                        if(err){
-                            console.log(err);
-                        }
-                    });
-                    return fields.picOriginal[0];
-                    //如果修改了就拿最新的地址
-                }else{
-                    return path;
-                }
-            })(files.pic[0].path)
-        };
-
-
-        //修改数据
-        db.updateOne('product', {"_id":new db.ObjectID(fields._id[0])}, _files, (data) => {
-            
-            // console.log(data)
-
-            response.redirect('product');
-        })
-
-        // 图片信息(地址)
-        
-        // 图片信息
-        // { pic:[ { fieldName: 'pic',
-        //        originalFilename: '175_03.png',
-        //        path: 'upload/6AL02SHRrm2KnU21W8vfDNmw.png',
-        //        headers: [Object],
-        //        size: 237946 } 
-            //] }
-            
-        //获取提交的数据以及图片上传成功后返回的图片信息
-    });
-})
-
-
-//删除商品
-app.get('/productdelete', (request, response) => {
-
-
-    //删除服务器上的图片
-    fs.unlink(request.query.picPath, (err) =>{
-        if(err){
-            console.log(err);
-        }
-    });
-    
-    //删除数据
-    db.deleteOne('product', {'_id':new db.ObjectID(request.query.id)}, (data) => {
-        response.redirect('/product');
-    });
-
-
-    // response.send('productdelete--删除商品')
-});
-
-//退出登陆
-app.get('/loginOut', (request, response) => {
-    
-    request.session.destroy((err) => {
-        if(err){
-            console.log(err);
-        }
-        response.redirect('/login');
-    });
-});
-
-app.listen(8000,'127.0.0.1');
+app.listen(8000, '127.0.0.1');
 
 
 
