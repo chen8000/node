@@ -19,8 +19,6 @@ router.get('/', (request, response) => {
 router.get('/add', (request, response) => {
 
     // response.send('增加用户');
-
-
     response.render('admin/user/add');
 });
 
