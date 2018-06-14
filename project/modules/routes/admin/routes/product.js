@@ -1,115 +1,31 @@
 
-
-// zhanghui.chen -- 666
-
-
 const express = require('express');
-const app = express();
-const session = require('express-session');
-const md5 = require('md5-node');// md5加密
+const router = express.Router();
 const fs = require('fs');
-
-//获取post提交的数据
-const bodyParser = require('body-parser');
-
+const db = require('../../../mongodb/db');
 //图片上传模块
 const multiparty = require('multiparty');
 
-//链接数据库
-const db = require('./modules/mongodb/db');
-
-
-//使用ejs模版引擎
-app.set('view engine', 'ejs');
-
-//配置中间件
-app.use(express.static('static'));
-app.use('/upload',express.static('upload'));
-
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
-
-//配置session的中间件
-app.use(session({
-    secret:'zhanghui666', // 加密session的随机字符串，随便写
-    name:'userId', // 设置返回客户端的key 默认是connect.sid   
-    resave:false, // 默认为true 表示不管session有没有变化都保存，false表示有变化才保存
-    saveUninitialized:true, // 强制把未初始化的session存储 默认设置为true 建议设置成true
-
-    //cookie的所有参数都可以设置到这里 
-    cookie:{
-        secure:false,
-        maxAge:1000*60*30  //设置过期时间
-    }, //secure:true 表示只有在https协议下才可以访问这个cookie
-
-    rolling:true, // 每次用户刷新也就后重新设置cookie时间，只要用户在过期时间内刷新的页面，
-                // cookie就不会过期，过期时间从用户最后一次刷新开始计算
-
-    //把 session存储到数据库             
-    // store : new MongoStore({
-        // url:'mongodb://127.0.0.1:27017/student',
-        // touchAfter: 24 * 3600   // 这个熟悉表示在24小时内无论有多少次请求，数据是不会变的，除非你更改了这个数据
-    // })            
-}));
-
-
-//自定义中间件，判断用户是否登陆
-app.use((request, response, next) => {
-
-    if(request.url == "/login" || request.url == '/doLogin'){
-        
-        next();
-    }else{
-        //判断有没有登陆
-        
-        if(request.session.userInfo && request.session.userInfo.username !== ''){
-            
-            //设置全局数据
-            app.locals['userinfo'] = request.session.userInfo;
-            
-            next();
-        }else{
-            response.redirect('/login');
-        }
-    } 
-});
-
-
-
-// 用户登陆的路由
-app.get('/login', (request, response) => {
-
-    response.render('login');
-
-    // response.send('login--用 户登陆');
-});
-
-// doLogin  获取登陆提交的数据
-app.post('/doLogin', (request, response) => {
-
-});
-
-
 //商品列表
-app.get('/product', (request, response) => {
-    
+router.get('/', (request, response) => {
+
+    //去数据库里查数据
+    db.find('product', {}, (data) => {
+           
+        response.render('admin/product/index', {list:data});
+    });
 });
 
+//添加商品
+router.get('/add', (request, response) => {
 
 
-//增加商品列表
-app.get('/productadd', (request, response) => {
+    response.render('admin/product/add');
 
-    //实现图片上传
-
-
-    // response.render('productadd');
-
-    // response.send('productAdd--增加商品列表');
 });
 
-//获取提交的数据
-app.post('/doProductAdd', (request, response) => {
+router.post('/doAdd', (request, response) => {
+
 
     //获取提交的数据以及图片信息
     const form = new multiparty.Form();
@@ -144,10 +60,12 @@ app.post('/doProductAdd', (request, response) => {
         //把信息保存到数据库里
         db.insertOne('product', _files, (data) => {
             
-            response.redirect('productadd');
+            
+            response.redirect('/admin/product/add');
         })
 
-        
+        // 图片信息(地址)
+
 
         // 图片信息
         // { pic:[ { fieldName: 'pic',
@@ -164,21 +82,16 @@ app.post('/doProductAdd', (request, response) => {
 })
 
 
-//编辑商品
-app.get('/productedit', (request, response) => {
-    
-    //根据数据库里的自增id查询数据需要使用  ObjectID 模块
-    
-    // db.find('product', {"_id":new db.ObjectID(request.query.id)}, (data) => {
+//修改商品
+router.get('/edit', (request, response) => {
 
-    //     response.render('productedit', {list:data[0]});
-    // })
-    // response.send('productedit--编辑商品');
+    db.find('product', {"_id":new db.ObjectID(request.query.id)}, (data) => {
+
+        response.render('admin/product/edit', {list:data[0]});
+    })
 });
 
-// 编辑完成后提交一个地址
-app.post('/doProductEdit', (request, response) => {
-
+router.post('/doEdit', (request, response) => {
 
     //获取提交的数据以及图片信息
     const form = new multiparty.Form();
@@ -233,7 +146,7 @@ app.post('/doProductEdit', (request, response) => {
             
             // console.log(data)
 
-            response.redirect('product');
+            response.redirect('/admin/product/index');
         })
 
         // 图片信息(地址)
@@ -250,10 +163,8 @@ app.post('/doProductEdit', (request, response) => {
     });
 })
 
-
 //删除商品
-app.get('/productdelete', (request, response) => {
-
+router.get('/delete', (request, response) => {
 
     //删除服务器上的图片
     fs.unlink(request.query.picPath, (err) =>{
@@ -264,25 +175,20 @@ app.get('/productdelete', (request, response) => {
     
     //删除数据
     db.deleteOne('product', {'_id':new db.ObjectID(request.query.id)}, (data) => {
-        response.redirect('/product');
+        response.redirect('/admin/product/index');
     });
 
 
-    // response.send('productdelete--删除商品')
-});
+})
 
-//退出登陆
-app.get('/loginOut', (request, response) => {
-    
-    request.session.destroy((err) => {
-        if(err){
-            console.log(err);
-        }
-        response.redirect('/login');
-    });
-});
 
-app.listen(8000,'127.0.0.1');
+module.exports = router;
+
+
+
+
+
+
 
 
 
