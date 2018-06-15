@@ -25,8 +25,10 @@ router.get('/', async (ctx) => {
 router.get('/news', async (ctx) => {
 
     let arr = ['11111', '22222', '333333'];
+    let h2 = `<h2>解析html标签</h2>`;
+    let num = 5;
 
-    await ctx.render('news', { arr });
+    await ctx.render('news', { arr, h2, num });
 })
 
 
