@@ -44,7 +44,7 @@ router.get('/router/:aid', async (ctx) => {
     console.log(ctx.params);
 
     ctx.body = '动态路由';
-})
+});
 
 
 
@@ -53,7 +53,6 @@ router.get('/router/:aid', async (ctx) => {
 app
     .use(router.routes()) // 启动路由
     .use(router.allowedMethods()); //  根据上下文环境配置 response 响应头
-
 
 
 
