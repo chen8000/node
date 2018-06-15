@@ -29,12 +29,21 @@ router.get('/getGet', async (ctx) => {
     console.log(ctx.querystring);
 
 
-    
-
-
-
+    //获取get传值三  [request]
+    console.log(ctx.request.query)
+    //获取get传值四  [request]
+    console.log(ctx.request.querystring)
 
     ctx.body = '获取get传值';
+});
+
+// 动态路由  -- 可以传多个值  /router/:aid/:cid
+router.get('/router/:aid', async (ctx) => {
+
+    //获取到动态路由传的值
+    console.log(ctx.params);
+
+    ctx.body = '动态路由';
 })
 
 
