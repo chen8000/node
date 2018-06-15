@@ -15,8 +15,12 @@ const app = new Koa();
 app.use(views('views', {extension:'ejs'}));
 
 
-//配置中间件   从static目录下找静态资源，
-app.use(static('./static'))
+//配置中间件   从static目录下找静态资源，__dirname 表示根目录，不写也可以，后面的 static 要写成  ./static
+
+//可以配置多个
+app.use(static(__dirname + '/static'));
+
+app.use(static(__dirname + '/public'));// 可以配置多个静态web服务
 
 
 
