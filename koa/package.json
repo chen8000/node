@@ -10,6 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "koa": "^2.5.1",
-    "koa-router": "^7.4.0"
+    "koa-router": "^7.4.0",
+    "koa-views": "^6.1.4"
   }
 }
