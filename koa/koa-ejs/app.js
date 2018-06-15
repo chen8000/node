@@ -13,6 +13,13 @@ const app = new Koa();
 // 从views里找模版， 使用ejs模版引擎  以 .ejs 结尾
 app.use(views('views', { extension:'ejs' }));
 
+//公共的数据, 中间件一定要使用next
+app.use( async (ctx, next) => {
+    ctx.state.userinfo = '公共的数据';
+
+    await next();
+});
+
 router.get('/', async (ctx) => {
 
     let title = 'zhanghui.chen 666';
