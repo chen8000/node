@@ -15,7 +15,18 @@ app.use(views('views', { extension:'ejs' }));
 
 router.get('/', async (ctx) => {
 
-    await ctx.render('index');
+    let title = 'zhanghui.chen 666';
+
+    await ctx.render('index',{ title }); 
+});
+
+
+
+router.get('/news', async (ctx) => {
+
+    let arr = ['11111', '22222', '333333'];
+
+    await ctx.render('news', { arr });
 })
 
 

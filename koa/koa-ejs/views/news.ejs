@@ -7,7 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    这是一个ejs模版引擎<br/>
-    <%= title%>
+    <ul>
+        <% for(let i = 0;i<arr.length;i++){%>
+        <li><%= arr[i]%></li>
+        <%}%>
+    </ul>
+    
 </body>
 </html>
