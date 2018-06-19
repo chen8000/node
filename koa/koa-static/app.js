@@ -23,8 +23,6 @@ app.use(static(__dirname + '/static'));
 app.use(static(__dirname + '/public'));// 可以配置多个静态web服务
 
 
-
-
 router.get('/', async (ctx) => {
 
     await ctx.render('index');
