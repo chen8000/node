@@ -11,5 +11,29 @@
 
     <div>{{list}}</div>
     {{@ h}}
+
+    <div>
+        if语句<br/>
+        {{if(false)}}
+
+            <h2>true</h2>
+        
+            {{else}}
+
+            <h2>false</h2>
+
+                {{/if}}
+    </div>
+    <div>
+        循环语句<br/>
+
+        {{each item}}
+
+            <div>{{$index}} -- {{$value}}</div>
+
+        {{/each}}
+
+
+    </div>
 </body>
 </html>

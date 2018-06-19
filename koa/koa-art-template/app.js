@@ -33,8 +33,14 @@ router.get('/news', async (ctx) => {
 
     let list = 222;
     let h = `<h2>这是一个h2标签</h2>`;
+    let item = [
+        '11111',
+        '22222',
+        '33333',
+        '666666'
+    ]
     
-    await ctx.render('news', {list, h});
+    await ctx.render('news', {list, h, item});
 })
 
 
