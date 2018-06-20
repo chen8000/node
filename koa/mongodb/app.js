@@ -8,6 +8,7 @@
 
 const db = require('./module/db');
 
+
 db.find('user',{}).then((err, data) => {
 
     if(err){
@@ -15,7 +16,6 @@ db.find('user',{}).then((err, data) => {
     }else{
         console.log(data);
     }
-
 });
 
 
