@@ -28,9 +28,14 @@ const db = require('./module/db');
 //             console.log(res);
 //         });
 
-db.update('user', {'username':"lisi666"}, {'sex':'女'}).then((res) => {
-    console.log(res.result)
-})
+// db.update('user', {'username':"lisi666"}, {'sex':'女'}).then((res) => {
+//     console.log(res.result)
+// })
+
+// 删除
+// db.remove('user',{'json2':{ "sex" : "女" }}).then((res) => {
+//     console.log(res)
+// })
 
         // console.log(result.ops)
 
