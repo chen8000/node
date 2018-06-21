@@ -2,7 +2,9 @@
 
 
 // db 库
-const MongoClient = require('mongodb').MongoClient;
+const MongoDb = require('mongodb');
+const MongoClient = MongoDb.MongoClient;
+const ObjectID = MongoDb.ObjectID;
 
 const config = require('./config');
 
@@ -126,6 +128,10 @@ class Db {
         })
     }
 
+    // ObjectId
+    ObjectID(id){
+        return new ObjectID(id);
+    }
 
 }
 

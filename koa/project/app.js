@@ -1,76 +1,124 @@
 
 
-// const MongoClient = require('mongodb').MongoClient;
-
-// const dbUrl = 'mongodb://127.0.0.1:27017';
-
-// const dbName = 'koa';
-
+const Koa = require('koa');
+const router = require('koa-router')();
+const render = require('koa-art-template');
+const static = require('koa-static');
+const path = require('path');
+const bodyParser = require('koa-bodyparser');
 const db = require('./module/db');
+const app = new Koa();
+const dbName = 'user';
+
+//配置 koa-art-template
+render(app, {
+    root : path.join(__dirname, 'views'), // 视图引擎的位置
+    extname : '.html',  // 后缀名
+    debug : process.env.NODE_ENV !== 'production'  // 是否开启调试模式
+});
+app.use(bodyParser()); //配置中间件
+
+//拿 post数据  ctx.request.body
+
+// 配置静态资源
+app.use(static(__dirname + '/public'));
 
 
-// db.find('user',{}).then((err, data) => {
+router.get('/', async (ctx) => {
 
-//     if(err){
-//         console.log(err);
-//     }else{
-//         console.log(data);
-//     }
-// });
+    //查数据
+    let result = await db.find(dbName, {});
+    
+    //渲染模版
+    await ctx.render('index', {result});
 
-// let result = db.insert('user',{
-//             'username':"lisi666",
-//             "age":28,
-//             "sex":'男',
-//             "status":1
-//         }).then((res) => {
-//             //拿到增加的数据
-//             console.log(res);
-//         });
+});
 
-// db.update('user', {'username':"lisi666"}, {'sex':'女'}).then((res) => {
-//     console.log(res.result)
-// })
+//修改模版
+router.get('/edit', async (ctx) => {
 
-db.remove('user',{'json2':{ "sex" : "女" }}).then((res) => {
-    console.log(res)
+    // console.log(ctx.query.id)
+
+
+    let result = await db.find(dbName, {'_id':db.ObjectID(ctx.query.id)});
+    
+
+    await ctx.render('edit', {result});
+});
+
+//提交修改
+router.post('/doEdit', async (ctx) => {
+    
+    let result = ctx.request.body;
+
+    let data = await db.update(dbName, {'_id':db.ObjectID(result.id)}, result)
+
+    try{
+        if(data.result.ok){
+            ctx.redirect('/');
+        }
+    }catch(err){
+        console.log(err);
+        ctx.redirect('/edit');
+        return;
+    }
 })
 
-        // console.log(result.ops)
+//增加
+router.get('/add', async (ctx) => {
 
-// MongoClient.connect(dbUrl, (err, client) => {
+    await ctx.render('add');
+});
 
-//     if(err){
-//         console.log(err);
-//         console.log('连接数据库失败');
-//         return;
-//     }
-//     const db = client.db(dbName);  // 指定db表
+//提交增加
+router.post('/doAdd', async (ctx) => {
+
+    let result = ctx.request.body;
 
     //增加数据
-    // db.collection('user').insertOne(
-    //     {
-    //         'username':"lisi",
-    //         "age":28,
-    //         "sex":'男',
-    //         "status":1
-    //     },
-    //     (err, result) => {
-    //         if(!err){
-    //             console.log('增加数据成功！');
-    //             client.close();
-    //         }
-    //     });
+    let data = await db.insert(dbName, result);
 
-    //查询数据
-//    let result = db.collection('user').find();
+    try{
+        if(data.result.ok){
+            //增加完数据后显示index页面
+            ctx.redirect('/');
+        }
+    }catch(err){
+        console.log(err);
+        ctx.redirect('/add');
+        return;
+    }
 
-//    result.toArray((err, data) => {
-//        console.log(data);
-//    });
-// })
+    
+});
+
+//删除
+router.get('/delete', async (ctx) => {
+
+    let result = ctx.query.id;
 
 
+    let data = await db.remove(dbName, {"_id":db.ObjectID(result)});
+
+    try{
+        if(data.result.ok){
+            ctx.redirect('/')
+        }
+    }catch(err){
+        console.log(err);
+        ctx.redirect('/');
+        return;
+    }
+})
+
+
+
+//启动路由
+app
+    .use(router.routes()) // 启动路由
+    .use(router.allowedMethods()); //  根据上下文环境配置 response 响应头
+
+app.listen(8000);
 
 
 
