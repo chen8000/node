@@ -78,7 +78,22 @@ class Db {
     }
 
     //增加
-    insert(){
+    insert(collectionName, json){
+
+        return new Promise((resolve, reject) => {
+            
+            this.connect().then((db) => {
+                db.collection(collectionName).insertOne(json, (err, result) => {
+                    if(err){
+                        reject(err);
+                    }else{
+                        //成功后返回增加的数据
+                        resolve(result.ops);
+                    }
+                })
+            })
+
+        })
 
     }
 

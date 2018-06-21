@@ -9,17 +9,26 @@
 const db = require('./module/db');
 
 
-db.find('user',{}).then((err, data) => {
+// db.find('user',{}).then((err, data) => {
 
-    if(err){
-        console.log(err);
-    }else{
-        console.log(data);
-    }
-});
+//     if(err){
+//         console.log(err);
+//     }else{
+//         console.log(data);
+//     }
+// });
 
+let result = db.insert('user',{
+            'username':"lisi666",
+            "age":28,
+            "sex":'男',
+            "status":1
+        }).then((res) => {
+            //拿到增加的数据
+            console.log(res);
+        });
 
-
+        // console.log(result.ops)
 
 // MongoClient.connect(dbUrl, (err, client) => {
 
