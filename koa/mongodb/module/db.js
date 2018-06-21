@@ -73,7 +73,19 @@ class Db {
     }
 
     // 修改
-    update(){
+    update(collectionName, json1, json2){
+
+        return new Promise((resolve, reject) => {
+            this.connect().then((db) => {
+                db.collection(collectionName).updateOne(json1, {$set:json2}, (err, update) => {
+                    if(err){
+                        reject(err);
+                    }else{
+                        resolve(update);
+                    }
+                })
+            })
+        });
 
     }
 

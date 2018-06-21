@@ -18,15 +18,19 @@ const db = require('./module/db');
 //     }
 // });
 
-let result = db.insert('user',{
-            'username':"lisi666",
-            "age":28,
-            "sex":'男',
-            "status":1
-        }).then((res) => {
-            //拿到增加的数据
-            console.log(res);
-        });
+// let result = db.insert('user',{
+//             'username':"lisi666",
+//             "age":28,
+//             "sex":'男',
+//             "status":1
+//         }).then((res) => {
+//             //拿到增加的数据
+//             console.log(res);
+//         });
+
+db.update('user', {'username':"lisi666"}, {'sex':'女'}).then((res) => {
+    console.log(res.result)
+})
 
         // console.log(result.ops)
 
