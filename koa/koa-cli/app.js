@@ -8,18 +8,19 @@ const app = new koa();
 // 子路由模块 -admin
 const admin = require('./routes/admin');
 const web = require('./routes/web');
-
-
+const api = require('./routes/api');
 
 //配置路由
 
-
+//前台首页
+router.use('/', web.routes());
 
 //后台首页
 router.use('/admin', admin.routes());
 
-//前台首页
-router.use('/', web.routes());
+//api
+router.use('/api', api.routes());
+
 
 
 
