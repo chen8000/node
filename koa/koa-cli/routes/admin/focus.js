@@ -7,7 +7,7 @@ const router = require('koa-router')();
 
 router.get('/', async (ctx) => {
 
-    ctx.body = 'focus.js'
+    await ctx.render('admin/focus/index');
 });
 
 // add  edit  delete

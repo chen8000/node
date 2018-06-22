@@ -19,7 +19,7 @@ router.use('/user', user.routes());
 //首页
 router.get('/', async (ctx) => {
 
-    ctx.body = 'zhanghui 666   -admin'
+    await ctx.render('admin/index');
 });
 
 

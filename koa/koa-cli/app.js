@@ -5,6 +5,7 @@ const koa = require('koa');
 const router = require('koa-router')();
 const path = require('path');
 const app = new koa();
+const render = require('koa-art-template');
 
 // 子路由模块 -admin
 const admin = require('./routes/admin');
@@ -22,7 +23,7 @@ render(app, {
 //配置路由
 
 //前台首页
-router.use('/', web.routes());
+router.use('/web', web.routes());
 
 //后台首页
 router.use('/admin', admin.routes());
