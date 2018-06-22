@@ -12,8 +12,8 @@ const user = require('./admin/user');
 
 
 //配置子模块中间件
-router.use('/focus', focus.routes());
-router.use('/user', user.routes());
+router.use('/focus', focus);
+router.use('/user', user);
 
 
 //首页
@@ -24,7 +24,7 @@ router.get('/', async (ctx) => {
 
 
 
-module.exports = router;
+module.exports = router.routes();
 
 
 

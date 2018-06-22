@@ -33,7 +33,7 @@ router.get('/delete', async (ctx) => {
 
 
 
-module.exports = router;
+module.exports = router.routes();
 
 
 

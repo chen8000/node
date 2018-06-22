@@ -9,7 +9,7 @@ const render = require('koa-art-template');
 
 // 子路由模块 -admin
 const admin = require('./routes/admin');
-const web = require('./routes/web');
+const index = require('./routes/index');
 const api = require('./routes/api');
 
 //配置中间件
@@ -23,13 +23,13 @@ render(app, {
 //配置路由
 
 //前台首页
-router.use('/web', web.routes());
+router.use('/', index);
 
 //后台首页
-router.use('/admin', admin.routes());
+router.use('/admin', admin);
 
 //api
-router.use('/api', api.routes());
+router.use('/api', api);
 
 
 
