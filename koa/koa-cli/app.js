@@ -3,6 +3,7 @@
 
 const koa = require('koa');
 const router = require('koa-router')();
+const static = require('koa-static');
 const path = require('path');
 const app = new koa();
 const render = require('koa-art-template');
@@ -18,6 +19,10 @@ render(app, {
     extname : '.html',  // 后缀名
     debug : process.env.NODE_ENV !== 'production'  // 是否开启调试模式
 });
+
+// 配置静态资源
+app.use(static(__dirname + '/public'));
+
 
 
 //配置路由
