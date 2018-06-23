@@ -25,7 +25,16 @@ app.use(static(__dirname + '/public'));
 
 
 
-//配置路由
+// 配置全局路径
+router.use( async (ctx, next) => {
+
+    // ctx.request.header.host;
+
+    // 配置全局路径  host
+    ctx.state.__HOST__ = `http://${ctx.request.header.host}`;
+
+    next();
+})
 
 
 //后台首页
