@@ -10,6 +10,7 @@ router.use( async (ctx, next) => {
 
     // ctx.request.header.host;
 
+    // 配置全局路径  host
     ctx.state.__HOST__ = `http://${ctx.request.header.host}`;
 
     next();
