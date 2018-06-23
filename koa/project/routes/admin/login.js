@@ -6,7 +6,7 @@ const router = require('koa-router')();
 
 router.get('/', async (ctx) => {
 
-    await ctx.render('login');
+    await ctx.render('admin/login');
 })
 
 

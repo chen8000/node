@@ -6,7 +6,14 @@ const router = require('koa-router')();
 const login = require('./admin/login');
 const user = require('./admin/user');
 
+router.use( async (ctx, next) => {
 
+    // ctx.request.header.host;
+
+    ctx.state.__HOST__ = `http://${ctx.request.header.host}`;
+
+    next();
+})
 
 router.get('/', async (ctx) => {
 
