@@ -9,35 +9,35 @@ const user = require('./admin/user');
 
 
 //判断用户是否登陆
-// router.use(async (ctx, next) => {
+router.use(async (ctx, next) => {
     
     
 
-//     //   如果用户登陆，继续向下执行
-//     //   如果没有登陆, 跳转到登陆页面
+    //   如果用户登陆，继续向下执行
+    //   如果没有登陆, 跳转到登陆页面
 
-//     console.log(ctx.url)
+    console.log(ctx.url)
 
-//     console.log('admin')
+    console.log('admin')
 
-//     console.log(ctx.session.userinfo)
+    console.log(ctx.session.userinfo)
 
 
     
-//     if(ctx.session.userinfo){
-//         await next();
-//     }else{
+    if(ctx.session.userinfo){
+        await next();
+    }else{
 
         
-//         if(ctx.url == '/admin/login' || ctx.url == '/admin/login/doLogin'){
-//             await next();
-//         }else{
+        if(ctx.url == '/admin/login' || ctx.url == '/admin/login/doLogin'){
+            await next();
+        }else{
 
-//             await ctx.redirect('/admin/login');
+            await ctx.redirect('/admin/login');
             
-//         }
-//     }
-// })
+        }
+    }
+})
 
 
 
