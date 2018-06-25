@@ -15,26 +15,24 @@ const index = require('./routes/index');
 const admin = require('./routes/admin');
 const api = require('./routes/api');
 
-// 配置session中间件
-app.keys = ['some secret hurr'];
- 
-const CONFIG = {
-  key: 'koa:sess', 
-  maxAge: 86400000,
-  overwrite: true, 
-  httpOnly: true, 
-  signed: true,
-  rolling: true, 
-  renew: false, 
-};
-app.use(session(CONFIG, app));
-
 //配置中间件
 render(app, {
     root : path.join(__dirname, 'views'), // 视图引擎的位置
     extname : '.html',  // 后缀名
     debug : process.env.NODE_ENV !== 'production'  // 是否开启调试模式
 });
+// 配置session中间件
+app.keys = ['some secret hurr'];
+const CONFIG = {
+    key: 'koa:sess',
+    maxAge: 864000,
+    overwrite: true,
+    httpOnly: true,
+    signed: true,
+    rolling: true,   /*每次请求都重新设置session*/
+    renew: false,
+};
+app.use(session(CONFIG, app));
 
 //post
 app.use(bodyParser()); //配置中间件
@@ -44,16 +42,6 @@ app.use(static(__dirname + '/public'));
 
 
 
-// 配置全局路径
-router.use( async (ctx, next) => {
-
-    // ctx.request.header.host;
-
-    // 配置全局路径  host
-    ctx.state.__HOST__ = `http://${ctx.request.header.host}`;
-
-    next();
-})
 
 
 //后台首页
