@@ -19,7 +19,8 @@ router.post('/doLogin',async (ctx)=>{
     //拿到post传值 -- 用户输入的值
     let username = ctx.request.body.username; 
     let password = ctx.request.body.password;
-    let codeType = ctx.request.body.code === ctx.session.code;  // 判断用户输入的验证码是否正确
+    // 判断用户输入的验证码是否正确 -不区分大小写
+    let codeType = ctx.request.body.code.toLowerCase() === ctx.session.code.toLowerCase();  
 
     // 去数据库匹配数据
     let result = await DB.find(dbName, {"username":username, "password":tools.md5(password)});
@@ -31,7 +32,7 @@ router.post('/doLogin',async (ctx)=>{
         ctx.render(`admin/public/error`, 
             { 
                 msg:`登陆失败，验证码错误`,
-                render:`${ctx.state.__HOST__}/admin/login`
+                redirect:`${ctx.state.__HOST__}/admin/login`
             }
         );
     }
@@ -45,11 +46,11 @@ router.post('/doLogin',async (ctx)=>{
         //跳到admin页面
         ctx.redirect(ctx.state.__HOST__+'/admin');
     }else{
-        // 如果验证码错误重新跳转到登陆页面
+        // 如果账号或者密码错误
         ctx.render(`admin/public/error`, 
             { 
                 msg:`登陆失败，用户名或密码错误`,
-                render:`${ctx.state.__HOST__}/admin/login`
+                redirect:`${ctx.state.__HOST__}/admin/login`
             }
         );
     }
