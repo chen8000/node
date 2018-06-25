@@ -16,24 +16,24 @@ router.get('/',async (ctx)=>{
 
 router.post('/doLogin',async (ctx)=>{
     
-    //拿到post传值
-    let username = ctx.request.body.username;
+    //拿到post传值 -- 用户输入的值
+    let username = ctx.request.body.username; 
     let password = ctx.request.body.password;
+    let codeType = ctx.request.body.code === ctx.session.code;  // 判断用户输入的验证码是否正确
 
     // 去数据库匹配数据
     let result = await DB.find(dbName, {"username":username, "password":tools.md5(password)});
 
     // 有数据，证明登陆成功了，
-    if(result.length>0){
+    if(result.length > 0 && codeType){
 
-        //把数据存到session里
+        //把数据存到session里 - 以便其他页面判断用户是否登陆
         ctx.session.userinfo = result[0];
 
         //跳到admin页面
         ctx.redirect(ctx.state.__HOST__+'/admin');
     }else{
         console.log('失败');
-
     }
 });
 
@@ -65,6 +65,12 @@ router.get('/code', async (ctx) => {
     ctx.response.type = 'image/svg+xml'; //设置验证码的响应头
 
     // captcha.data  - 生成的验证码
+
+    // 把后台生成的验证码存入session
+    ctx.session.code = captcha.text;
+
+    console.log(ctx.session.code)
+
     ctx.body = captcha.data; 
 })
 

@@ -36,8 +36,8 @@
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="验证吗" style="width:200px;float:left;" />
-															<img style="float:right;" src="{{__HOST__}}/admin/login/code" alt="">
+															<input type="text" name="code" class="form-control" placeholder="验证吗" style="width:200px;float:left;" />
+															<img id="code" src="{{__HOST__}}/admin/login/code" alt="">
 														</span>
 													</label>
 
@@ -76,6 +76,12 @@
 
 		<!-- basic scripts -->
 
-	
+	<script>
+		$(function(){
+			$('#code').click(function(){
+				$(this).attr('src', '{{__HOST__}}/admin/login/code?' + Math.random()*1000)
+			})
+		})
+	</script>
 </body>
 </html>
