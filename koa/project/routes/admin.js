@@ -23,7 +23,7 @@ router.use(async (ctx, next) => {
     if(ctx.session.userinfo){
         await  next();
     }else{  //没有登录跳转到登录页面
-        if(pathname=='/admin/login' || pathname=='/admin/login/doLogin' ){
+        if(pathname=='/admin/login' || pathname=='/admin/login/doLogin' || pathname == '/admin/login/code'){
             await  next();
         }else{
             ctx.redirect('/admin/login');
