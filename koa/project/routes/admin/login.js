@@ -91,6 +91,16 @@ router.get('/code', async (ctx) => {
     console.log(ctx.session.code)
 
     ctx.body = captcha.data; 
+});
+
+
+//退出登陆
+router.get('/loginOut', async (ctx) => {
+
+    ctx.session.userinfo = null;//把session设置为空
+
+    //退出登陆后跳转到login页面
+    ctx.redirect(`${ctx.state.__HOST__}/admin/login`)
 })
 
  

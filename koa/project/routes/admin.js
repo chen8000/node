@@ -12,7 +12,10 @@ const url = require('url');
 //判断用户是否登陆
 router.use(async (ctx, next) => {
     
-    
+    // 配置全局用户信息
+    ctx.state.G = {
+        userInfo:ctx.session.userinfo
+    }
     ctx.state.__HOST__='http://'+ctx.request.header.host;
     //   如果用户登陆，继续向下执行
     //   如果没有登陆, 跳转到登陆页面
