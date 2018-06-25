@@ -11,7 +11,7 @@ router.get('/', async (ctx) => {
     await ctx.render('admin/login');
 });
 
-router.post('/doLogin', async (ctx, next) => {
+router.post('/doLogin', async (ctx) => {
 
     
     
@@ -22,10 +22,11 @@ router.post('/doLogin', async (ctx, next) => {
     
     if(result.length > 0){
         
+        // console.log(JSON.stringify(result[0]))
 
         ctx.session.userinfo = result[0];
 
-        ctx.redirect('/admin');
+        await ctx.redirect('/admin/index');
         
     }else{
         console.log('失败')

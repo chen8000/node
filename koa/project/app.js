@@ -15,26 +15,26 @@ const index = require('./routes/index');
 const admin = require('./routes/admin');
 const api = require('./routes/api');
 
+// 配置session中间件
+app.keys = ['some secret hurr'];
+ 
+const CONFIG = {
+  key: 'koa:sess', 
+  maxAge: 86400000,
+  overwrite: true, 
+  httpOnly: true, 
+  signed: true,
+  rolling: true, 
+  renew: false, 
+};
+app.use(session(CONFIG, app));
+
 //配置中间件
 render(app, {
     root : path.join(__dirname, 'views'), // 视图引擎的位置
     extname : '.html',  // 后缀名
     debug : process.env.NODE_ENV !== 'production'  // 是否开启调试模式
 });
-// 配置session中间件
-app.keys = ['some secret hurr']; // cookie的签名，不用管写上就行
-
-const CONFIG = {
-    key : 'koa:sess', // 不需要配置，就这样写就行
-    maxAge : 9000000, // 表示一个cookie的过期时间
-    overwrite : true, // 不用设置 就用默认 的 true
-    httpOnly : false, // true 只有服务器端可以获取这个session false表示客户端和服务器端都可以获取
-    signed : true, // 使用默认 true
-    rolling : false, // 每次访问都重新设置cookie,这将重新设置过期时间
-    renew : true // 每次访问都重新设置cookie,这将重新设置过期时间
-};
-
-app.use(session(CONFIG, app));
 
 //post
 app.use(bodyParser()); //配置中间件
