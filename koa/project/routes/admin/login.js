@@ -24,8 +24,20 @@ router.post('/doLogin',async (ctx)=>{
     // 去数据库匹配数据
     let result = await DB.find(dbName, {"username":username, "password":tools.md5(password)});
 
+    // 验证码 
+    if(!codeType){
+
+        // 如果验证码错误重新跳转到登陆页面
+        ctx.render(`admin/public/error`, 
+            { 
+                msg:`登陆失败，验证码错误`,
+                render:`${ctx.state.__HOST__}/admin/login`
+            }
+        );
+    }
+
     // 有数据，证明登陆成功了，
-    if(result.length > 0 && codeType){
+    if(result.length > 0){
 
         //把数据存到session里 - 以便其他页面判断用户是否登陆
         ctx.session.userinfo = result[0];
@@ -33,7 +45,13 @@ router.post('/doLogin',async (ctx)=>{
         //跳到admin页面
         ctx.redirect(ctx.state.__HOST__+'/admin');
     }else{
-        console.log('失败');
+        // 如果验证码错误重新跳转到登陆页面
+        ctx.render(`admin/public/error`, 
+            { 
+                msg:`登陆失败，用户名或密码错误`,
+                render:`${ctx.state.__HOST__}/admin/login`
+            }
+        );
     }
 });
 
