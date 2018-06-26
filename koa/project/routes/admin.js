@@ -1,12 +1,14 @@
 
 
 const router = require('koa-router')();
+const url = require('url');
 
 //子模块
 const login = require('./admin/login');
 const user = require('./admin/user');
 const manage = require('./admin/manage');
-const url = require('url');
+const index = require('./admin/index');
+
 
 
 
@@ -43,15 +45,11 @@ router.use(async (ctx, next) => {
 
 
 
-router.get('/', async (ctx) => {
-
-    ctx.render('admin/index');
-});
-
-
+router.use(index);
 router.use('/login', login);
 router.use('/user', user);
 router.use('/manage', manage);
+
 
 
 

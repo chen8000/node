@@ -90,14 +90,19 @@
 										</td>
 
 										<td class="hidden-480">
+											{{if $value.status == 1}}
 												<button class="btn btn-xs btn-success">
 													<i class="icon-ok bigger-120 success"></i>
 												</button>
+											{{else}}	
+												<button class="btn btn-xs btn-danger">
+													<i class="icon-remove bigger-120 success"></i>
+												</button>
+											{{/if}}	
 										</td>
 
 										<td>
 											<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
-												
 
 												<button class="btn btn-xs btn-info">
 													<i class="icon-edit bigger-120"></i>

@@ -10,6 +10,7 @@ const bodyParser = require('koa-bodyparser');
 const app = new koa();
 const render = require('koa-art-template');
 const sd = require('silly-datetime');
+const jsonp = require('koa-jsonp'); 
 
 // 子路由模块 -admin
 const index = require('./routes/index');
@@ -22,7 +23,7 @@ render(app, {
     extname : '.html',  // 后缀名
     debug : process.env.NODE_ENV !== 'production',  // 是否开启调试模式
     dateFormat: dateFormat = (value) => {
-        return sd.format(new Date(value), 'YYYY-MM-DD HH:mm');  //格式化日期
+        return sd.format(value, 'YYYY-MM-DD HH:mm');  //格式化日期
     }   
 });
 // 配置session中间件
@@ -44,7 +45,8 @@ app.use(bodyParser()); //配置中间件
 // 配置静态资源
 app.use(static(__dirname + '/public'));
 
-
+// jsonp 中间件
+app.use(jsonp());
 
 
 
