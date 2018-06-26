@@ -1,9 +1,4 @@
-﻿
-
-
-
-
-{{include 'admin/public/header.html'}}
+﻿{{include 'admin/public/header.html'}}
 
 <body>
 <div class="navbar navbar-default" id="navbar">
@@ -56,19 +51,20 @@
 
 				<div class="page-header">
 					<h1>
-						增加管理员
+						修改管理员
 					</h1>
 				</div><!-- /.page-header -->
 
 				<!--表格-->
 
 				<div class="table-responsive">
-					<form action="{{__HOST__}}/admin/manage/doAdd" method="post" class="form-horizontal" role="form">
+					<form action="{{__HOST__}}/admin/manage/doEdit" method="post" class="form-horizontal" role="form">
 						<div class="form-group">
 							<label class="col-sm-2 control-label no-padding-right" for="username">用户名:</label>
 
 							<div class="col-sm-10">
-								<input type="text" id="username"  name="username" class="col-xs-10 col-sm-5" />
+								<input type="hidden" name="id"  value="{{@result[0]._id}}"/>
+								<input type="text" id="username"  name="username" value="{{result[0].username}}" class="col-xs-10 col-sm-5" />
 							</div>
 						</div>
 
@@ -81,13 +77,13 @@
 						</div>
 
 
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<label class="col-sm-2 control-label no-padding-right" for="rpassword">确认密码:</label>
 
 							<div class="col-sm-10">
 								<input type="password" id="rpassword"  name="rpassword" class="col-xs-10 col-sm-5" />
 							</div>
-						</div>
+						</div> -->
 
 						<div class="form-group">
 							<label class="col-sm-2 control-label no-padding-right" for="rpassword"></label>
@@ -97,11 +93,6 @@
 							</div>
 
 						</div>
-
-
-
-
-
 					</form>
 
 				</div>

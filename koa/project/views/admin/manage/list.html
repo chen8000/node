@@ -104,14 +104,15 @@
 
 										<td>
 											<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
-
-												<button class="btn btn-xs btn-info">
-													<i class="icon-edit bigger-120"></i>
-												</button>
+												
+												<a class="btn btn-xs btn-info" href="{{__HOST__}}/admin/manage/edit?id={{@$value._id}}">
+													
+														<i class="icon-edit bigger-120"></i>
+												</a>
 												&nbsp;
-												<button class="btn btn-xs btn-danger">
+												<a class="btn btn-xs btn-danger" href="{{__HOST__}}/admin/manage/remove?id={{@$value._id}}">
 													<i class="icon-trash bigger-120"></i>
-												</button>
+												</a>
 
 											</div>
 

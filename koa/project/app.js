@@ -30,7 +30,7 @@ render(app, {
 app.keys = ['some secret hurr'];
 const CONFIG = {
     key: 'koa:sess',
-    maxAge: 864000,
+    maxAge: 864000*10000,
     overwrite: true,
     httpOnly: true,
     signed: true,
