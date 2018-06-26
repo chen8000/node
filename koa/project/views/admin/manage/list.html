@@ -90,15 +90,16 @@
 										</td>
 
 										<td class="hidden-480">
-											{{if $value.status == 1}}
-												<button  onclick="app.toggle(this, 'admin', 'class', '{{$value._id}}')" class="btn btn-xs btn-success">
+												{{if $value.status === 1}}
+												<button  onclick="app.toggle(this, 'admin', 'status', '{{@$value._id}}')" class="btn btn-xs btn-success">
 													<i class="icon-ok bigger-120 success"></i>
 												</button>
-											{{else}}	
-												<button  onclick="app.toggle(this, 'admin', 'class', '{{$value._id}}')" class="btn btn-xs btn-danger">
+												{{else}}
+												<button  onclick="app.toggle(this, 'admin', 'status', '{{@$value._id}}')" class="btn btn-xs btn-danger">
 													<i class="icon-remove bigger-120 success"></i>
 												</button>
-											{{/if}}	
+												{{/if}}
+												
 										</td>
 
 										<td>
