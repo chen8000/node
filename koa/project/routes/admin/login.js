@@ -45,6 +45,9 @@ router.post('/doLogin',async (ctx)=>{
         //把数据存到session里 - 以便其他页面判断用户是否登陆
         ctx.session.userinfo = result[0];
 
+        //修改最后登陆时间
+        await DB.update(dbName, {"_id":await DB.ObjectID(result[0]._id)}, {"last_time":new Date()})
+
         //跳到admin页面
         ctx.redirect(ctx.state.__HOST__+'/admin');
     }else{

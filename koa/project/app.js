@@ -9,6 +9,7 @@ const session = require('koa-session');
 const bodyParser = require('koa-bodyparser');
 const app = new koa();
 const render = require('koa-art-template');
+const sd = require('silly-datetime');
 
 // 子路由模块 -admin
 const index = require('./routes/index');
@@ -19,7 +20,10 @@ const api = require('./routes/api');
 render(app, {
     root : path.join(__dirname, 'views'), // 视图引擎的位置
     extname : '.html',  // 后缀名
-    debug : process.env.NODE_ENV !== 'production'  // 是否开启调试模式
+    debug : process.env.NODE_ENV !== 'production',  // 是否开启调试模式
+    dateFormat: dateFormat = (value) => {
+        return sd.format(new Date(value), 'YYYY-MM-DD HH:mm');  //格式化日期
+    }   
 });
 // 配置session中间件
 app.keys = ['some secret hurr'];
