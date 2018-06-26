@@ -35,6 +35,8 @@ router.post('/doLogin',async (ctx)=>{
                 redirect:`${ctx.state.__HOST__}/admin/login`
             }
         );
+
+        return;
     }
 
     // 有数据，证明登陆成功了，
@@ -101,7 +103,7 @@ router.get('/loginOut', async (ctx) => {
 
     //退出登陆后跳转到login页面
     ctx.redirect(`${ctx.state.__HOST__}/admin/login`)
-})
+});
 
  
 
