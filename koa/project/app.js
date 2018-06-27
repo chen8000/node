@@ -34,7 +34,7 @@ const CONFIG = {
     overwrite: true,
     httpOnly: true,
     signed: true,
-    rolling: true,   /*每次请求都重新设置session*/
+    rolling: true,
     renew: false,
 };
 app.use(session(CONFIG, app));
