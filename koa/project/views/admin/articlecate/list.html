@@ -78,21 +78,24 @@
 											{{$value.title}}
 										</td>
 										<td>
+											{{if $value.status == 1}}
 											<button  onclick="" class="btn btn-xs btn-success">
 												<i class="icon-ok bigger-120 success"></i>
 											</button>
+											{{else}}
 											<button  onclick="" class="btn btn-xs btn-danger">
 												<i class="icon-remove bigger-120 success"></i>
 											</button>
+											{{/if}}
 										</td>
 										<td>
 											<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
-												<a href="{{__HOST__}}/admin/articlecate/edit">
+												<a href="{{__HOST__}}/admin/articlecate/edit?id={{@$value._id}}">
 													<button class="btn btn-xs btn-info">
 														<i class="icon-edit bigger-120"></i>
 													</button>
 												</a>
-												<a href="{{__HOST__}}/admin/articlecate/remove">
+												<a href="{{__HOST__}}/admin/articlecate/remove?id={{@$value._id}}">
 													<button class="btn btn-xs btn-danger">
 														<i class="icon-trash bigger-120"></i>
 													</button>
@@ -108,21 +111,24 @@
 													{{$value.title}}
 												</td>
 												<td>
+													{{if $value.status == 1}}
 													<button  onclick="" class="btn btn-xs btn-success">
 														<i class="icon-ok bigger-120 success"></i>
 													</button>
+													{{else}}
 													<button  onclick="" class="btn btn-xs btn-danger">
 														<i class="icon-remove bigger-120 success"></i>
 													</button>
+													{{/if}}
 												</td>
 												<td>
 													<div class="visible-md visible-lg hidden-sm hidden-xs btn-group center">
-														<a href="{{__HOST__}}/admin/articlecate/edit">
+														<a href="{{__HOST__}}/admin/articlecate/edit?id={{@$value._id}}">
 															<button class="btn btn-xs btn-info">
 																<i class="icon-edit bigger-120"></i>
 															</button>
 														</a>
-														<a href="{{__HOST__}}/admin/articlecate/remove">
+														<a href="{{__HOST__}}/admin/articlecate/remove?id={{@$value._id}}">
 															<button class="btn btn-xs btn-danger">
 																<i class="icon-trash bigger-120"></i>
 															</button>
