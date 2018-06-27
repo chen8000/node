@@ -8,6 +8,7 @@ const login = require('./admin/login');
 const user = require('./admin/user');
 const manage = require('./admin/manage');
 const index = require('./admin/index');
+const articlecate = require('./admin/articlecate');
 
 
 
@@ -49,6 +50,7 @@ router.use(index);
 router.use('/login', login);
 router.use('/user', user);
 router.use('/manage', manage);
+router.use('/articlecate', articlecate);
 
 
 

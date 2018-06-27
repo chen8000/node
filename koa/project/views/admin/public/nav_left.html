@@ -70,7 +70,7 @@
             </ul>
         </li>
 
-        <li>
+        <li {{if G.url[1] == "articlecate"}} class="active open" {{/if}}>
             <a href="#" class="dropdown-toggle">
                 <i class="icon-list"></i>
                 <span class="menu-text"> 分类管理 </span>
@@ -79,15 +79,15 @@
             </a>
 
             <ul class="submenu">
-                <li>
-                    <a href="tables.html">
+                <li{{if G.url[2] == "list"}} class="active" {{/if}}>
+                    <a href="{{__HOST__}}/admin/articlecate/list">
                         <i class="icon-double-angle-right"></i>
                         分类列表
                     </a>
                 </li>
 
-                <li>
-                    <a href="jqgrid.html">
+                <li{{if G.url[2] == "add"}} class="active" {{/if}}>
+                    <a href="{{__HOST__}}/admin/articlecate/add">
                         <i class="icon-double-angle-right"></i>
                         增加分类
                     </a>
