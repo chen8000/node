@@ -95,8 +95,8 @@
 														<i class="icon-edit bigger-120"></i>
 													</button>
 												</a>
-												<a href="{{__HOST__}}/admin/articlecate/remove?id={{@$value._id}}">
-													<button class="btn btn-xs btn-danger">
+												<a id="listParentHover" href="{{if $value.list.length > 0}} javascript:void(0) {{else}} {{__HOST__}}/admin/articlecate/remove?id={{@$value._id}} {{/if}}">
+													<button class="btn btn-xs {{if $value.list.length > 0}} disabled {{else}} btn-danger  {{/if}}">
 														<i class="icon-trash bigger-120"></i>
 													</button>
 												</a>

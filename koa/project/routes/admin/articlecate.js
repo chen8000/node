@@ -27,6 +27,7 @@ router.get('/edit', async (ctx) => {
     let result1 = await DB.find(dbName, {"_id":await DB.ObjectID(ctx.query.id)});
 
     // 判断是不是一级  如果是 什么都不做，不是把所有一级都查出来
+    // 去掉判断条件可以实现一级变二级，
     if(!result1[0].pid == '0'){
         // 一级
         result0 = await DB.find(dbName, {"pid":'0'});
@@ -50,7 +51,7 @@ router.post('/doEdit', async (ctx) => {
     
 
     await DB.update(dbName, { "_id":await DB.ObjectID(result.id)}, 
-        {id, title, pid, keywords, status, description})
+        {title, pid, keywords, status, description})
 
     ctx.redirect(`${ctx.state.__HOST__}/admin/articlecate/list`)
 })
@@ -69,7 +70,6 @@ router.get('/add', async (ctx) => {
 router.post('/doAdd', async (ctx) => {
 
     let result = ctx.request.body;
-    let id = result.id;
     let title = result.title;
     let pid = result.pid;
     let keywords = result.keywords;
@@ -77,7 +77,7 @@ router.post('/doAdd', async (ctx) => {
     let description = result.description;
     
     // 存数据
-    await DB.insert(dbName, {id, title, pid, keywords, status, description});
+    await DB.insert(dbName, { title, pid, keywords, status, description});
 
     await ctx.redirect(`${ctx.state.__HOST__}/admin/articlecate/list`);
 })
