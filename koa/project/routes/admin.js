@@ -24,7 +24,8 @@ router.use(async (ctx, next) => {
     ctx.state.G = {
 
         url:splitUrl,
-        userInfo:ctx.session.userinfo
+        userInfo:ctx.session.userinfo,
+        prevPage:ctx.request.headers['referer']
     }
     ctx.state.__HOST__='http://'+ctx.request.header.host;
     //   如果用户登陆，继续向下执行

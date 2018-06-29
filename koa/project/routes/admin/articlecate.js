@@ -89,7 +89,7 @@ router.get('/remove', async (ctx) => {
 
     await DB.remove(dbName, {"_id": await DB.ObjectID(ctx.query.id)});
 
-    await ctx.redirect(`${ctx.state.__HOST__}/admin/articlecate/list`)
+    await ctx.redirect(ctx.state.G.prevPage);
 })
 
 
