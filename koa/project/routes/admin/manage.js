@@ -40,7 +40,8 @@ router.post('/doAdd', async (ctx) => {
         await ctx.redirect(`${ctx.state.__HOST__}/admin/manage/add`);
 
         return;
-    }
+    }  
+    
 
     // 添加管理员信息
     await DB.insert(
