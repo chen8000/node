@@ -63,15 +63,8 @@ class Db {
         3. 分页显示，可不传。格式为：{page：1, pageSize:10 } pageSize可不传，默认为 20
     
     */ 
-    find(collectionName, [json = {}, json1 = {}], ...values){
-
-        /*
-            1， 数据库名字
-            2， 查询条件（所有列）
-            3， 查询条件（1列）
-            4， {skip,limit}  page(第几页)     pageSize(多少条)
-        */
-
+    find(collectionName, [ json = {}, json1 = {} ], ...values){
+        
         let slipNum = 0;
         let pageSize = 0;
         let page;
