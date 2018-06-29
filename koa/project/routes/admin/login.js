@@ -23,7 +23,7 @@ router.post('/doLogin',async (ctx)=>{
     let codeType = ctx.request.body.code.toLowerCase() === ctx.session.code.toLowerCase();  
 
     // 去数据库匹配数据
-    let result = await DB.find(dbName, {"username":username, "password":tools.md5(password)});
+    let result = await DB.find(dbName, [{"username":username, "password":tools.md5(password)}]);
 
     // 验证码 
     if(!codeType){

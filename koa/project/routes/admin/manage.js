@@ -12,7 +12,7 @@ router.get('/', async (ctx) => {
 // 查
 router.get('/list', async (ctx) => {
 
-    let list = await DB.find(dbName, {});
+    let list = await DB.find(dbName, [{}]);
 
     ctx.render('admin/manage/list',{list});
 })
@@ -30,7 +30,7 @@ router.post('/doAdd', async (ctx) => {
     let result = await ctx.request.body;
 
     // 查找是否有这个用户名
-    let findName = await DB.find(dbName, {"username":result.username});
+    let findName = await DB.find(dbName, [{"username":result.username}]);
     
     // 如果用户存在
     if(findName.length > 0){
@@ -61,7 +61,7 @@ router.get('/edit', async (ctx) => {
 
     let id = ctx.query.id;
 
-    let result = await DB.find(dbName, {"_id":await DB.ObjectID(id)});
+    let result = await DB.find(dbName, [{"_id":await DB.ObjectID(id)}]);
 
     await ctx.render(`admin/manage/edit`, {result});
 

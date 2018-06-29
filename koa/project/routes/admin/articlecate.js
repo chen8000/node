@@ -14,7 +14,7 @@ router.get('/', async (ctx) => {
 // list
 router.get('/list', async (ctx) => {
 
-    let result = tools.D2(await DB.find(dbName, {}));
+    let result = tools.D2(await DB.find(dbName, [{}]));
 
     await ctx.render(`admin/articlecate/list`, { result });
 });
@@ -24,13 +24,13 @@ router.get('/edit', async (ctx) => {
     // 一级
     let result0 = [];
     // 当前条数据
-    let result1 = await DB.find(dbName, {"_id":await DB.ObjectID(ctx.query.id)});
+    let result1 = await DB.find(dbName, [{"_id":await DB.ObjectID(ctx.query.id)}]);
 
     // 判断是不是一级  如果是 什么都不做，不是把所有一级都查出来
     // 去掉判断条件可以实现一级变二级，
     if(!result1[0].pid == '0'){
         // 一级
-        result0 = await DB.find(dbName, {"pid":'0'});
+        result0 = await DB.find(dbName, [{"pid":'0'}]);
     }
 
     
@@ -62,7 +62,7 @@ router.post('/doEdit', async (ctx) => {
 // 增加
 router.get('/add', async (ctx) => {
 
-    let result = await DB.find(dbName, {"pid":'0'});
+    let result = await DB.find(dbName, [{"pid":'0'}]);
     
     await ctx.render(`admin/articlecate/add`, { result }); 
 });

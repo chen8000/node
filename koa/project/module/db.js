@@ -56,11 +56,39 @@ class Db {
         })
     }
 
-    // 查询
-    find(collectionName, json){
+    // 查询  
+    /*
+        1. 数据库名字
+        2. [{},{}]  一个数组，第一个为查询条件，第二个为查询一列条件，第二个可选
+        3. 分页显示，可不传。格式为：{page：1, pageSize:10 } pageSize可不传，默认为 20
+    
+    */ 
+    find(collectionName, [json = {}, json1 = {}], ...values){
+
+        /*
+            1， 数据库名字
+            2， 查询条件（所有列）
+            3， 查询条件（1列）
+            4， {skip,limit}  page(第几页)     pageSize(多少条)
+        */
+
+        let slipNum = 0;
+        let pageSize = 0;
+        let page;
+
+        if(values.length == 1){
+
+            [{ page = 1, pageSize = 20 }] = values;
+            slipNum = (page - 1) * pageSize;
+
+        }else if(values.length > 1){
+            console.log(`传入参数错误!length应为1，正确为： { page:1, pageSize:10 }`);
+        }
+
+
         return new Promise((resolve, reject) => {
             this.connect().then((db) => {
-                let result = db.collection(collectionName).find(json);
+                let result = db.collection(collectionName).find(json, json1).skip(slipNum).limit(pageSize) ;
     
                 result.toArray((err, data) => {
                     if(err){
@@ -71,6 +99,8 @@ class Db {
                 })
             })
         })
+
+        
         
     }
 
