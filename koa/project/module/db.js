@@ -78,7 +78,6 @@ class Db {
             console.log(`传入参数错误!length应为1，正确为： { page:1, pageSize:10 }`);
         }
 
-
         return new Promise((resolve, reject) => {
             this.connect().then((db) => {
                 let result = db.collection(collectionName).find(json, json1).skip(slipNum).limit(pageSize) ;
@@ -92,8 +91,6 @@ class Db {
                 })
             })
         })
-
-        
         
     }
 
