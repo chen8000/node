@@ -9,6 +9,7 @@ const user = require('./admin/user');
 const manage = require('./admin/manage');
 const index = require('./admin/index');
 const articlecate = require('./admin/articlecate');
+const article = require('./admin/article');
 
 
 
@@ -48,9 +49,10 @@ router.use(async (ctx, next) => {
 
 
 router.use(index);
-router.use('/login', login);
 router.use('/user', user);
+router.use('/login', login);
 router.use('/manage', manage);
+router.use('/article', article);
 router.use('/articlecate', articlecate);
 
 
