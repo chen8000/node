@@ -21,8 +21,6 @@ router.get('/changeStatus', async (ctx) => {
     // 修改status状态  0===X   1===√
     result.status = Status[0].status == 0 ? 1 : 0;
 
-
-
     //去数据库更新数据
     let success = await DB.update(result.collectionName, {"_id":await DB.ObjectID(result.id)}, {'status':result.status})
 
