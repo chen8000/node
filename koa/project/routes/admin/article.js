@@ -75,10 +75,17 @@ router.get('/add', async (ctx) => {
 router.post('/doAdd', upload.single('pic'), async (ctx) => {
 
     ctx.body = {
-        filename:ctx.req.file.filename, // 返回的文件名
+        filename:'', // 返回的文件名
         body:ctx.req.body
     }
     
+});
+
+
+// 百度富文本编辑器
+router.get('/ueditor', async (ctx) => {
+
+    await ctx.render('admin/article/ueditor');
 })
 
 
