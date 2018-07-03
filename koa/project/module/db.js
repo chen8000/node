@@ -148,6 +148,23 @@ class Db {
         })
     }
 
+    // 总条数
+    count(collectionName, json){
+        return new Promise((resolve, reject) => {
+            this.connect().then((db) => {
+                db.collection(collectionName).count(json, (err, result) => {
+
+                    if(err){
+                        reject(err);
+                    }else{
+                        resolve(result); 
+                    }
+    
+                })
+            })
+        })
+    }
+
     // ObjectId
     ObjectID(id){
         return new ObjectID(id);
