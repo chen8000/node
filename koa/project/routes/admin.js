@@ -1,7 +1,39 @@
 
 
+
+
+/*
+ueditor富文本编辑器
+
+--前台使用--
+1.前台页面使用 需要从github上下载js文件  koa2-ueditor/example/public/ueditor
+2.把ueditor文件夹放到静态目录下
+3.页面头部引入js
+    <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+4.把下面这个标签放到需要渲染富文本的地方
+<script id="editor" type="text/plain" style="width:100%;height:300px;"></script>
+5. 配置  【getEditor传入的参数是渲染编辑器的script的id】
+    var ue = UE.getEditor('editor');
+
+
+--后台配置--    
+4. 后台安装koa2-ueditor模块
+5. 引入
+6. router.all('/editor/controller', ueditor('public')); // public为服务器静态目录
+7. 配置图片上传  
+router.all('/editor/controller', ueditor(['public', {
+	"imageAllowFiles": [".png", ".jpg", ".jpeg"], 配置可以上传的img格式
+	"imagePathFormat": "/upload/ueditor/image/{yyyy}{mm}{dd}/{filename}"  // 保存为原文件名
+}]))
+
+*/ 
+
 const router = require('koa-router')();
 const url = require('url');
+const ueditor = require('koa2-ueditor');
 
 //子模块
 const login = require('./admin/login');
@@ -11,7 +43,12 @@ const index = require('./admin/index');
 const articlecate = require('./admin/articlecate');
 const article = require('./admin/article');
 
-
+// 配置富文本
+router.all('/editor/controller', ueditor('public'));
+router.all('/editor/controller', ueditor(['public', {
+	"imageAllowFiles": [".png", ".jpg", ".jpeg"],
+	"imagePathFormat": "/upload/ueditor/image/{yyyy}{mm}{dd}/{filename}"  // 保存为原文件名
+}]))
 
 
 //判断用户是否登陆
@@ -72,6 +109,13 @@ router.use('/articlecate', articlecate);
 
 
 module.exports = router.routes();
+
+
+
+
+
+
+
 
 
 

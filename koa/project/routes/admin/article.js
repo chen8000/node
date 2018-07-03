@@ -22,10 +22,16 @@
         router.post('/doAdd', upload.single('pic'), async (ctx) => {
 
             ctx.body = {
-                filename:ctx.req.file.filename, // 返回上传后的文件名
+                // 返回上传后的文件名
+                filename:filename:(() => {
+                    if(ctx.req.file !== undefined){
+                        return ctx.req.file.filename;
+                    }else{
+                        return '';
+                    }
+                })(), 
                 body:ctx.req.body
             }
-            
         })
 
 3.模版页面的form里要写个属性  enctype="multipart/form-data"
@@ -48,6 +54,7 @@ let storage = multer.diskStorage({
   })
   
   let upload = multer({ storage })
+
 
 // 列表页
 router.get('/list', async (ctx) => {
@@ -74,8 +81,19 @@ router.get('/add', async (ctx) => {
 // 提交地址
 router.post('/doAdd', upload.single('pic'), async (ctx) => {
 
+    if(ctx.req.file !== undefined){
+
+    }
+
     ctx.body = {
-        filename:'', // 返回的文件名
+        // 返回的文件名
+        filename:(() => {
+            if(ctx.req.file !== undefined){
+                return ctx.req.file.filename;
+            }else{
+                return null;
+            }
+        })(), 
         body:ctx.req.body
     }
     
