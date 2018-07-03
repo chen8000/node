@@ -21,13 +21,16 @@ ueditor富文本编辑器
 
 --后台配置--    
 4. 后台安装koa2-ueditor模块
-5. 引入
+5. 引入 const ueditor = require('koa2-ueditor');
 6. router.all('/editor/controller', ueditor('public')); // public为服务器静态目录
 7. 配置图片上传  
 router.all('/editor/controller', ueditor(['public', {
 	"imageAllowFiles": [".png", ".jpg", ".jpeg"], 配置可以上传的img格式
 	"imagePathFormat": "/upload/ueditor/image/{yyyy}{mm}{dd}/{filename}"  // 保存为原文件名
-}]))
+}]));
+8. 配置服务器统一请求接口路径
+在 public/ueditor/ueditor.config.js
+serverUrl 后面的路径
 
 */ 
 
