@@ -47,8 +47,8 @@ const articlecate = require('./admin/articlecate');
 const article = require('./admin/article');
 
 // 配置富文本
-router.all('/editor/controller', ueditor('public'));
-router.all('/editor/controller', ueditor(['public', {
+router.all('/editorUpload', ueditor('public'));
+router.all('/editorUpload', ueditor(['public', {
 	"imageAllowFiles": [".png", ".jpg", ".jpeg"],
 	"imagePathFormat": "/upload/ueditor/image/{yyyy}{mm}{dd}/{filename}"  // 保存为原文件名
 }]))

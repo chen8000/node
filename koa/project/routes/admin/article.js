@@ -23,13 +23,7 @@
 
             ctx.body = {
                 // 返回上传后的文件名
-                filename:filename:(() => {
-                    if(ctx.req.file !== undefined){
-                        return ctx.req.file.filename;
-                    }else{
-                        return '';
-                    }
-                })(), 
+                filename:ctx.req.file ? ctx.req.file.filename : '',
                 body:ctx.req.body
             }
         })
@@ -87,13 +81,7 @@ router.post('/doAdd', upload.single('pic'), async (ctx) => {
 
     ctx.body = {
         // 返回的文件名
-        filename:(() => {
-            if(ctx.req.file !== undefined){
-                return ctx.req.file.filename;
-            }else{
-                return null;
-            }
-        })(), 
+        filename: ctx.req.file ? ctx.req.file.filename : '',
         body:ctx.req.body
     }
     
