@@ -43,6 +43,7 @@ app.use(session(CONFIG, app));
 app.use(bodyParser()); //配置中间件
 
 // 配置静态资源
+app.use(static('.'));
 app.use(static(__dirname + '/public'));
 
 // jsonp 中间件

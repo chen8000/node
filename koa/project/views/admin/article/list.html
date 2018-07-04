@@ -84,15 +84,15 @@
 									<tr class="">
 										
 										<td>
-											{{$value.username}}
+											{{$value.title}}
 										</td>
 										
 										<td>
-											分类名称
+											{{$value.catename}}
 										</td>
 
 										<td>
-											发布时间
+											{{$value.start_time | dateFormat}}
 										</td>
 										<td>
 
@@ -135,7 +135,7 @@
 												{{/if}}
 										</td>
 										<td>
-											<a href="">
+											<a href="{{__HOST__}}/admin/article/edit?id={{@$value._id}}">
 												<button class="btn btn-xs btn-info">
 													<i class="icon-edit bigger-120"></i>
 												</button>

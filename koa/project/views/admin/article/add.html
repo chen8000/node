@@ -74,30 +74,66 @@
 						</ul>
 						<div id="myTabContent" class="tab-content">
 							<div class="tab-pane fade in active" id="home">
-								<div class="form-group">
-									<label class="col-sm-2 control-label no-padding-right" for="title">分类名称:</label>
-
-									<div class="col-sm-10">
-										<input type="text" id="title"  name="title" class="col-xs-10 col-sm-5" />
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label class="col-sm-2 control-label no-padding-right" for="pic">上传图片</label>
-
-									<div class="col-sm-10">
-										<input type="file" id="pic"  name="pic" class="col-xs-10 col-sm-5" />
-									</div>
-								</div>
-
-								<div class="form-group">
-										<label class="col-sm-2 control-label no-padding-right" for="description">描述</label>
-	
-										<div class="col-sm-10">
-											<textarea name="" id="description" cols="30" rows="10"></textarea>
+									<div class="tab-pane fade in active" id="basic">
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right" for="pid">所属分类：</label>
+			
+												<div class="col-sm-10">
+													<select name="pid" id="pid" onchange="select.chang(this)">
+														<option value=''>请选择内容分类</option>
+														{{each result}}
+															<option value="{{@$value._id}}">{{$value.title}}</option>
+															{{each $value.list}}
+																<option value="{{@$value._id}}">---{{$value.title}}</option>
+															{{/each}}		
+														{{/each}}
+													</select>
+												</div>
+												<input type="hidden" name="catename" id="catename"  value="" />
+											</div>
+											
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right" for="title">名称:</label>
+			
+												<div class="col-sm-10">
+													<input type="text" id="title"  name="title" class="col-xs-10 col-sm-5" />
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right" for="title">封面图:</label>
+			
+												<div class="col-sm-10">
+													<input type="file" id="file"  name="pic" class="col-xs-10 col-sm-5" />
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right" for="title">作者:</label>
+			
+												<div class="col-sm-10">
+													<input type="text" id="author"  name="author" class="col-xs-10 col-sm-5" />
+												</div>
+											</div>
+			
+			
+			
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right">状态：</label>
+												<div class="col-sm-10">
+													<label for="status1">已审核：</label><input type="radio" name="status"  id="status1" value="1" checked />
+													&nbsp;
+													<label for="status2">未审核:</label><input type="radio" name="status" id="status2" value="0" />
+												</div>
+											</div>
+			
+											<div class="form-group">
+												<label class="col-sm-2 control-label no-padding-right">加入推荐：</label>
+												<div class="col-sm-10">
+													<input type="checkbox" value="1" name="is_best" checked=""> 精品
+													<input type="checkbox" value="1" name="is_hot" checked=""> 热销
+													<input type="checkbox" value="1" name="is_new" checked=""> 新品
+												</div>
+											</div>
 										</div>
-									</div>
-
 							</div>
 							<div class="tab-pane fade" id="ios">
 								<div class="form-group">
@@ -108,6 +144,20 @@
 								</div>	
 							</div>
 							<div class="tab-pane fade" id="seo">
+									<div class="form-group">
+											<label class="col-sm-2 control-label no-padding-right" for="keywords">关键字：</label>
+		
+											<div class="col-sm-10">
+												<input type="text" id="keywords"  name="keywords" class="col-xs-10 col-sm-5" />
+											</div>
+										</div>
+										<div class="form-group" style="height:100px;">
+											<label class="col-sm-2 control-label no-padding-right" for="description">描述：</label>
+											<div class="col-sm-10">
+												<textarea  style="height:100px;" class="col-xs-10 col-sm-5"  name="description" id="description" cols="10" rows="10"></textarea>
+											</div>
+										</div>
+
 								<div class="form-group">
 									<label class="col-sm-2 control-label no-padding-right" for="description"></label>
 
@@ -118,13 +168,6 @@
 							</div>
 						</div>
 						
-
-
-		
-
-								
-
-								
 							</form>
 						</div>
 
@@ -143,6 +186,7 @@
 	{{include 'admin/public/footer.html'}}
 
 		<script type="text/javascript">
+				
 
 		// 富文本
 		var ue = UE.getEditor('editor');
@@ -151,34 +195,12 @@
 		$(function () {
 			$('#myTab li:eq(0) a').tab('show');
 		});
-			jQuery(function($) {
-								
-				
-				$('table th input:checkbox').on('click' , function(){
-					var that = this;
-					$(this).closest('table').find('tr > td:first-child input:checkbox')
-					.each(function(){
-						this.checked = that.checked;
-						$(this).closest('tr').toggleClass('selected');
-					});
-						
-				});
-			
-			
-				$('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
-				function tooltip_placement(context, source) {
-					var $source = $(source);
-					var $parent = $source.closest('table')
-					var off1 = $parent.offset();
-					var w1 = $parent.width();
-			
-					var off2 = $source.offset();
-					var w2 = $source.width();
-			
-					if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
-					return 'left';
-				}
-			})
+		   var select = {
+			   // 所属分类选中触发这个函数
+			   chang:function (_this){
+					document.getElementById('catename').value = _this.value;
+			   }
+		   }
 		</script>
 	
 </body>

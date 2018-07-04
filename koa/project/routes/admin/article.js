@@ -35,6 +35,8 @@
 const router = require('koa-router')();
 const multer = require('koa-multer');
 const DB = require('../../module/db');
+const tools = require('../../module/tools');
+const dbName = 'article';
 
 // 配置multer模块 上传图片
 let storage = multer.diskStorage({
@@ -50,17 +52,36 @@ let storage = multer.diskStorage({
   let upload = multer({ storage })
 
 
+// 首页
+router.get('/', async (ctx) => {
+
+    await ctx.redirect(`${ctx.state.__HOST__}/admin/article/list?page=1`)
+}) 
+
 // 列表页
 router.get('/list', async (ctx) => {
 
     // page 第几页  pageSize:每页显示多少条， 默认10条
     let page = ctx.query.page; // 第几页
     let pageSize = 10; // 每页显示多少条
-    let result = await DB.find('user', [{}], { page, pageSize}); // 根据page查询对应数据
-    let count = await DB.count('user',{}); //总数量
+    let result = await DB.find(dbName, [{}], { page, pageSize}); // 根据page查询对应数据
+
+    // 把分类查出来
+    let catename = await DB.find('articlecate', [{}]);
+
+    // 循环分类 判断如果分类的_id和文章列表的pid一样 证明这个分类就是当前这条文章的分类
+    for(let i = 0; i<catename.length; i++){
+        for(let n = 0; n<result.length; n++){
+            if(catename[i]._id == result[n].pid){
+                result[n].catename = catename[i].title;
+            }
+        }
+    }
+
+    
+
+    let count = await DB.count(dbName, {}); //总数量
     let counts = count / pageSize;
-
-
 
     await ctx.render('admin/article/list', { result , page, pageSize, counts});
 });
@@ -68,31 +89,122 @@ router.get('/list', async (ctx) => {
 // 增加内容页面
 router.get('/add', async (ctx) => {
 
-    await ctx.render('admin/article/add');
+    let result = await tools.D2(await DB.find('articlecate',[{}]));
+
+    await ctx.render('admin/article/add', { result });
     
 });
 
 // 提交地址
 router.post('/doAdd', upload.single('pic'), async (ctx) => {
 
-    if(ctx.req.file !== undefined){
+    // 分类名称
+    let catename = ctx.req.body.catename;
 
-    }
+    
 
-    ctx.body = {
-        // 返回的文件名
-        filename: ctx.req.file ? ctx.req.file.filename : '',
-        body:ctx.req.body
-    }
+    // pid存的是分类的_id
+    let pid = ctx.req.body.pid;
+    // 名称
+    let title = ctx.req.body.title;
+    // 封面图
+    let pic = ctx.req.file ? ctx.req.file.path : '';
+    // 作者
+    let author = ctx.req.body.author;
+    // 状态
+    let status = ctx.req.body.status;
+    // --精品
+    let is_best = ctx.req.body.is_best;
+    // --热销 
+    let is_hot = ctx.req.body.is_hot;
+    // --新品
+    let is_new = ctx.req.body.is_new;
+    // 文章编辑
+    let content = ctx.req.body.content ? ctx.req.body.content : '';
+    // 关键字
+    let keywords = ctx.req.body.keywords;
+    // 描述
+    let description = ctx.req.body.description;
+    // 发布时间
+    let start_time = new Date();
+
+    let json = {catename, pid, title, pic, author, status, is_best, is_hot, is_new, content, keywords, description, start_time}
+
+    // 存数据
+    await DB.insert(dbName, json);
+
+    // 刷新页面
+    ctx.redirect(`${ctx.state.__HOST__}/admin/article`);
     
 });
+
+// 编辑
+router.get('/edit', async (ctx) => {
+
+    let result = await DB.find(dbName, [{"_id":await DB.ObjectID(ctx.query.id)}]);
+
+    let catename = await tools.D2(await DB.find('articlecate', [{}]));
+
+    ctx.render('admin/article/edit',{result, catename});
+});
+
+// 编辑完提交
+router.post('/doEdit', upload.single('pic'), async (ctx) => {
+
+
+
+    let result = ctx.req.body;
+    let id = result.id;
+
+    console.log(ctx.req.body)
+
+    // 分类名称
+    let catename = result.catename;
+    // pid存的是分类的_id
+    let pid = result.pid;
+    // 名称
+    let title = result.title;
+    // 封面图
+    let pic = ctx.req.file ? ctx.req.file.path : '';
+    // 作者
+    let author = result.author;
+    // 状态
+    let status = result.status;
+    // --精品
+    let is_best = result.is_best;
+    // --热销 
+    let is_hot = result.is_hot;
+    // --新品
+    let is_new = result.is_new;
+    // 文章编辑
+    let content = result.content ? result.content : '';
+    // 关键字
+    let keywords = result.keywords;
+    // 描述
+    let description = result.description;
+    // 发布时间
+    let start_time = new Date();
+
+    let json = {catename, pid, title, author, status, is_best, is_hot, is_new, content, keywords, description, start_time}
+
+   
+    if(pic != ''){
+        json.pic = pic;
+    }
+
+    await DB.update(dbName, {"_id":await DB.ObjectID(id)}, json);
+
+    ctx.redirect(ctx.state.G.prevPage);
+})
+
+
 
 
 // 百度富文本编辑器
 router.get('/ueditor', async (ctx) => {
 
     await ctx.render('admin/article/ueditor');
-})
+});
 
 
 

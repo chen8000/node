@@ -8,7 +8,7 @@ const dbName = 'articlecate';
 // list
 router.get('/', async (ctx) => {
 
-    await ctx.render(`admin/articlecate/list`);
+    await ctx.redirect(`${ctx.state.__HOST__}/admin/articlecate/list`);
 });
 
 // list
@@ -50,7 +50,7 @@ router.post('/doEdit', async (ctx) => {
     let description = result.description;
     
 
-    await DB.update(dbName, { "_id":await DB.ObjectID(result.id)}, 
+    await DB.update(dbName, { "_id":await DB.ObjectID(id)}, 
         {title, pid, keywords, status, description})
 
     ctx.redirect(`${ctx.state.__HOST__}/admin/articlecate/list`)
