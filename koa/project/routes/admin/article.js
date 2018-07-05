@@ -198,13 +198,28 @@ router.post('/doEdit', upload.single('pic'), async (ctx) => {
     ctx.redirect(result.prevPage);
 });
 
+// 排序
+router.post('/editSort', async (ctx) => {
+
+    let result = ctx.request.body;
+
+    let updateResult = await DB.update(dbName, {"_id": await DB.ObjectID(result.id)}, {"sort": Number(result.sort)});
+
+    if(updateResult){
+        ctx.body = {"type":true};
+    }else{
+        ctx.body = {"type":false};
+    }
+
+})
+
 
 // 删除
 router.get('/remove', async (ctx) => {
 
     await DB.remove(dbName, {"_id":await DB.ObjectID(ctx.query.id)});
 
-    ctx.redirect(ctx.state.G.prevPage);
+    await ctx.redirect(`${ctx.state.__HOST__}/admin/article/list?page=1`)
 })
 
 
