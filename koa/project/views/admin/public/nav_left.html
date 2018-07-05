@@ -121,13 +121,7 @@
                 
             </ul>
         </li>
-
-        
-
-        
-
-
-        <li>
+        <li{{if G.url[1] == "focus"}} class="active open" {{/if}}>
             <a href="#" class="dropdown-toggle">
                 <i class="icon-picture"></i>
                 <span class="menu-text"> 轮播图管理 </span>
@@ -136,14 +130,14 @@
             </a>
 
             <ul class="submenu">
-                <li>
-                    <a href="#">
+                <li{{if G.url[2] == "list"}} class="active" {{/if}}>
+                    <a href="{{__HOST__}}/admin/focus">
                         <i class="icon-double-angle-right"></i>
                         轮播图列表
                     </a>
                 </li>
 
-                <li>
+                <li{{if G.url[2] == "add"}} class="active" {{/if}}>
                     <a href="#">
                         <i class="icon-double-angle-right"></i>
                         增加轮播图
