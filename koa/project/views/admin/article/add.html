@@ -127,10 +127,10 @@
 			
 											<div class="form-group">
 												<label class="col-sm-2 control-label no-padding-right">加入推荐：</label>
-												<div class="col-sm-10">
-													<input type="checkbox" value="1" name="is_best" checked=""> 精品
-													<input type="checkbox" value="1" name="is_hot" checked=""> 热销
-													<input type="checkbox" value="1" name="is_new" checked=""> 新品
+												<div class="col-sm-10" id="checkboxEd">
+													<input type="checkbox" value="0" name="is_best"> 精品
+													<input type="checkbox" value="0" name="is_hot"> 热销
+													<input type="checkbox" value="0" name="is_new"> 新品
 												</div>
 											</div>
 										</div>
@@ -199,7 +199,21 @@
 			   // 所属分类选中触发这个函数
 			   chang:function (_this){
 					document.getElementById('catename').value = _this.value;
-			   }
+			   },
+			   // 根据checkbox点击选中或不选中
+			   checkbox:(function(){
+				   var box = document.getElementById('checkboxEd');
+				   var obj = box.getElementsByTagName('input');
+				   for(var i = 0; i<obj.length;i++){
+					   obj[i].onclick = function(){
+						   if(this.checked){
+							   this.value = '1';
+						   }else{
+							   this.value = '0';
+						   }
+					   }
+				   }
+			   })()
 		   }
 		</script>
 	

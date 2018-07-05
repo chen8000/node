@@ -112,7 +112,7 @@
 										</td>
 
 										<td>
-												{{if true}}
+												{{if $value.is_best==1 || $value.is_hot==1 || $value.is_new==1}}
 												<button  onclick="" class="btn btn-xs btn-success">
 													<i class="icon-ok bigger-120 success"></i>
 												</button>
@@ -124,7 +124,7 @@
 										</td>
 
 										<td>
-												{{if true}}
+												{{if $value.status == 1}}
 												<button  onclick="" class="btn btn-xs btn-success">
 													<i class="icon-ok bigger-120 success"></i>
 												</button>
@@ -141,7 +141,7 @@
 												</button>
 											</a>
 											&nbsp;&nbsp;
-											<a class="delete" href="">
+											<a class="delete" href="{{__HOST__}}/admin/article/remove?id={{@$value._id}}">
 												<button class="btn btn-xs btn-danger">
 													<i class="icon-trash bigger-120"></i>
 												</button>

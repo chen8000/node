@@ -81,7 +81,7 @@ router.get('/list', async (ctx) => {
     
 
     let count = await DB.count(dbName, {}); //总数量
-    let counts = count / pageSize;
+    let counts = Math.ceil(count / pageSize);// 需要取整数
 
     await ctx.render('admin/article/list', { result , page, pageSize, counts});
 });
@@ -100,9 +100,6 @@ router.post('/doAdd', upload.single('pic'), async (ctx) => {
 
     // 分类名称
     let catename = ctx.req.body.catename;
-
-    
-
     // pid存的是分类的_id
     let pid = ctx.req.body.pid;
     // 名称
@@ -114,11 +111,11 @@ router.post('/doAdd', upload.single('pic'), async (ctx) => {
     // 状态
     let status = ctx.req.body.status;
     // --精品
-    let is_best = ctx.req.body.is_best;
+    let is_best = ctx.req.body.is_best || '0';
     // --热销 
-    let is_hot = ctx.req.body.is_hot;
+    let is_hot = ctx.req.body.is_hot || '0';
     // --新品
-    let is_new = ctx.req.body.is_new;
+    let is_new = ctx.req.body.is_new || '0';
     // 文章编辑
     let content = ctx.req.body.content ? ctx.req.body.content : '';
     // 关键字
@@ -129,6 +126,7 @@ router.post('/doAdd', upload.single('pic'), async (ctx) => {
     let start_time = new Date();
 
     let json = {catename, pid, title, pic, author, status, is_best, is_hot, is_new, content, keywords, description, start_time}
+    console.log(json)
 
     // 存数据
     await DB.insert(dbName, json);
@@ -145,7 +143,9 @@ router.get('/edit', async (ctx) => {
 
     let catename = await tools.D2(await DB.find('articlecate', [{}]));
 
-    ctx.render('admin/article/edit',{result, catename});
+    let prevPage = ctx.state.G.prevPage;
+
+    ctx.render('admin/article/edit',{result, catename , prevPage});
 });
 
 // 编辑完提交
@@ -155,8 +155,6 @@ router.post('/doEdit', upload.single('pic'), async (ctx) => {
 
     let result = ctx.req.body;
     let id = result.id;
-
-    console.log(ctx.req.body)
 
     // 分类名称
     let catename = result.catename;
@@ -171,11 +169,11 @@ router.post('/doEdit', upload.single('pic'), async (ctx) => {
     // 状态
     let status = result.status;
     // --精品
-    let is_best = result.is_best;
+    let is_best = result.is_best || '0';
     // --热销 
-    let is_hot = result.is_hot;
+    let is_hot = result.is_hot || '0';
     // --新品
-    let is_new = result.is_new;
+    let is_new = result.is_new || '0';
     // 文章编辑
     let content = result.content ? result.content : '';
     // 关键字
@@ -185,14 +183,25 @@ router.post('/doEdit', upload.single('pic'), async (ctx) => {
     // 发布时间
     let start_time = new Date();
 
+
+
     let json = {catename, pid, title, author, status, is_best, is_hot, is_new, content, keywords, description, start_time}
 
-   
+    
     if(pic != ''){
         json.pic = pic;
     }
 
     await DB.update(dbName, {"_id":await DB.ObjectID(id)}, json);
+
+    ctx.redirect(result.prevPage);
+});
+
+
+// 删除
+router.get('/remove', async (ctx) => {
+
+    await DB.remove(dbName, {"_id":await DB.ObjectID(ctx.query.id)});
 
     ctx.redirect(ctx.state.G.prevPage);
 })
