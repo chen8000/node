@@ -64,7 +64,7 @@ router.get('/list', async (ctx) => {
     // page 第几页  pageSize:每页显示多少条， 默认10条
     let page = ctx.query.page; // 第几页
     let pageSize = 10; // 每页显示多少条
-    let result = await DB.find(dbName, [{}], { page, pageSize}); // 根据page查询对应数据
+    let result = await DB.find(dbName, [{}, {}, {"sort":-1}], { page, pageSize}); // 根据page查询对应数据
 
     // 把分类查出来
     let catename = await DB.find('articlecate', [{}]);
@@ -105,7 +105,7 @@ router.post('/doAdd', upload.single('pic'), async (ctx) => {
     // 名称
     let title = ctx.req.body.title;
     // 封面图
-    let pic = ctx.req.file ? ctx.req.file.path : '';
+    let pic = ctx.req.file ? ctx.req.file.path.substr(7) : '';
     // 作者
     let author = ctx.req.body.author;
     // 状态
@@ -124,9 +124,10 @@ router.post('/doAdd', upload.single('pic'), async (ctx) => {
     let description = ctx.req.body.description;
     // 发布时间
     let start_time = new Date();
+    // 总条数
+    let sort = await DB.count(dbName, {}); //总数量
 
-    let json = {catename, pid, title, pic, author, status, is_best, is_hot, is_new, content, keywords, description, start_time}
-    console.log(json)
+    let json = {catename, pid, title, pic, author, status, is_best, is_hot, is_new, content, keywords, description, start_time, sort}
 
     // 存数据
     await DB.insert(dbName, json);
@@ -189,7 +190,7 @@ router.post('/doEdit', upload.single('pic'), async (ctx) => {
 
     
     if(pic != ''){
-        json.pic = pic;
+        json.pic = pic.substr(7);
     }
 
     await DB.update(dbName, {"_id":await DB.ObjectID(id)}, json);

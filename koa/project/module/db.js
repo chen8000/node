@@ -59,11 +59,11 @@ class Db {
     // 查询  
     /*
         1. 数据库名字
-        2. [{},{}]  一个数组，第一个为查询条件，第二个为查询一列条件，第二个可选
+        2. [{},{},{}]  一个数组，第一个为查询条件，第二个为查询一列条件，第三个为排序。第二个可选的前提是不传第三个参数
         3. 分页显示，可不传。格式为：{page：1, pageSize:10 } pageSize可不传，默认为 20
     
     */ 
-    find(collectionName, [ json = {}, json1 = {} ], ...values){
+    find(collectionName, [ json = {}, json1 = {}, json2 = {} ], ...values){
         
         let slipNum = 0;
         let pageSize = 0;
@@ -80,7 +80,7 @@ class Db {
 
         return new Promise((resolve, reject) => {
             this.connect().then((db) => {
-                let result = db.collection(collectionName).find(json, json1).skip(slipNum).limit(pageSize) ;
+                let result = db.collection(collectionName).find(json, json1).skip(slipNum).limit(pageSize).sort(json2) ;
     
                 result.toArray((err, data) => {
                     if(err){
