@@ -33,24 +33,13 @@
 */ 
 
 const router = require('koa-router')();
-const multer = require('koa-multer');
 const DB = require('../../module/db');
 const tools = require('../../module/tools');
 const dbName = 'article';
 
-// 配置multer模块 上传图片
-let storage = multer.diskStorage({
-    destination:(req, file, cb) => {
-        cb(null, 'public/upload') // 配置上传图片的目录[主意图片上传的目录必须存在]
-    },
-    filename:(req, file, cb) => {
-        let fileFormat = (file.originalname).split('.'); // 把原图片名字分割成数组
-        cb(null, `${file.fieldname}-${Date.now()}.${fileFormat[fileFormat.length-1]}`) // 定义图片上传后的名字
-    }
-  })
-  
-  let upload = multer({ storage })
 
+// 配置图片上传路径
+const upload = tools.storage('public/upload');
 
 // 首页
 router.get('/', async (ctx) => {

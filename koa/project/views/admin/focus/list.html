@@ -82,7 +82,7 @@
 											{{$value.title}}
 										</td>
 										<td>
-											<img width="100px" src="{{$value.pic}}" alt="">
+											<img width="50px" src="{{__HOST__}}/{{$value.pic}}" alt="">
 										</td>
 
 										<td>
@@ -146,31 +146,32 @@
     <script src="{{__HOST__}}/admin/js/jqPaginator.js"></script>
 
 	<script>
-		// $("#page").jqPaginator({
-		// 	totalPages:{{counts}}, // 总页数
-		// 	visiblePages:4,
-		// 	currentPage:{{page}}, //当前显示第几页
-		// 	onPageChange:function(num, type){
+		$("#page").jqPaginator({
+			totalPages:{{counts}}, // 总页数
+			visiblePages:4,
+			currentPage:{{page}}, //当前显示第几页
+			onPageChange:function(num, type){
 				
-		// 		if(type == 'change'){
-		// 			location.href = '{{__HOST__}}/admin/article/list?page=' + num;
-		// 		}
-		// 	}
-		// });
+				if(type == 'change'){
+					location.href = '{{__HOST__}}/admin/focus/list?page=' + num;
+				}
+			}
+		});
 	</script>
 
 	<script type="text/javascript">
 		var sort = {
 			onBlur:function(_this){
+				
 				var id = _this.getAttribute('attrId');
 				var sort = _this.value;
 
-				$.post('{{__HOST__}}/admin/article/editSort',
+				$.post('{{__HOST__}}/admin/focus/editSort',
 					{id, sort},
 					function(res){
-					if(res.type){
-						location.reload();
-					}
+						if(res.type){
+							location.reload();
+						}
 				})
 			}
 		}

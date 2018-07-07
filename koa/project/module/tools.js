@@ -1,5 +1,6 @@
 
 const md5 = require('md5-node');
+const multer = require('koa-multer');
 
 
 const toos = {
@@ -7,6 +8,23 @@ const toos = {
     // md5加密
     md5(str){
         return md5(str);
+    },
+
+    // 配置图片上传 模块 multer
+    storage(path){
+        // 配置multer模块 上传图片
+        let storage = multer.diskStorage({
+            destination:(req, file, cb) => {
+                cb(null, path) // 配置上传图片的目录[主意图片上传的目录必须存在]
+            },
+            filename:(req, file, cb) => {
+                let fileFormat = (file.originalname).split('.'); // 把原图片名字分割成数组
+                cb(null, `${file.fieldname}-${Date.now()}.${fileFormat[fileFormat.length-1]}`) // 定义图片上传后的名字
+            }
+        })
+        
+        return multer({ storage });
+
     },
 
     // 根据pid把数据分类，返回一个二维数组
