@@ -46,6 +46,7 @@ const index = require('./admin/index');
 const articlecate = require('./admin/articlecate');
 const article = require('./admin/article');
 const focus = require('./admin/focus');
+const link = require('./admin/link');
 
 // 配置富文本
 router.all('/editorUpload', ueditor('public'));
@@ -91,6 +92,7 @@ router.use(async (ctx, next) => {
 
 router.use(index);
 router.use('/user', user);
+router.use('/link', link);
 router.use('/login', login);
 router.use('/focus', focus);
 router.use('/manage', manage);

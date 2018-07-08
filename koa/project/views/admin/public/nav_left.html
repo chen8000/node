@@ -148,35 +148,31 @@
             </ul>
         </li>
 
-        <li>
+        <li{{if G.url[1] == "link"}} class="active open" {{/if}}>
             <a href="#" class="dropdown-toggle">
-                <i class="icon-paperclip"></i>
-
-                <span class="menu-text">
-                    友情链接管理
-                    <span class="badge badge-primary ">5</span>
-                </span>
+                <i class="icon-picture"></i>
+                <span class="menu-text"> 友情链接 </span>
 
                 <b class="arrow icon-angle-down"></b>
             </a>
 
             <ul class="submenu">
-                <li>
-                    <a href="#">
+                <li{{if G.url[2] == "list"}} class="active" {{/if}}>
+                    <a href="{{__HOST__}}/admin/link/list?page=1">
                         <i class="icon-double-angle-right"></i>
                         友情链接列表
                     </a>
                 </li>
 
-                <li>
-                    <a href="#">
+                <li{{if G.url[2] == "add"}} class="active" {{/if}}>
+                    <a href="{{__HOST__}}/admin/link/add">
                         <i class="icon-double-angle-right"></i>
                         增加友情链接
                     </a>
-                </li>							
-            </ul>
+                </li>
 
-            
+                
+            </ul>
         </li>
 
         <li>
