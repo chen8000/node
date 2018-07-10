@@ -85,10 +85,10 @@ router.post('/doEdit', upload.single('pic'), async (ctx) => {
     let pic = ctx.req.file ? ctx.req.file.path : '';
 
     // 排序
-    let sort = await DB.count(dbName, {}); //总数量
+    //let sort = await DB.count(dbName, {}); //总数量
     // 把图片添加到result里
 
-    let json = { title, url, status, sort };
+    let json = { title, url, status };
 
     if(pic != ''){
         json.pic = pic.substr(7);

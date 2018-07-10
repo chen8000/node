@@ -18,14 +18,13 @@
         	        	
   <div class="swiper-container">
     <div class="swiper-wrapper">
+      {{each focus}}
       <div class="swiper-slide">
-      	
-      	<img src="index/images/banner5.jpg" alt="" />
+        <a href="{{$value.url}}">
+          <img src="{{$value.pic}}" alt="{{$value.title}}" />
+        </a>
       </div>
-      <div class="swiper-slide">
-      	<img src="index/images/banner2.jpg" alt="" />
-      </div>
-     
+     {{/each}}
     </div>
      <div class="swiper-pagination"></div>
      

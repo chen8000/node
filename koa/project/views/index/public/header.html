@@ -7,24 +7,11 @@
         </div>
         <div class="nav">
             <ul class="clear">
+                {{each G.nav}}
                 <li>
-                    <a href="/" {{if G.url[0] == ''}} class="active" {{/if}}>网站首页</a>
+                    <a href="{{$value.url}}" {{if '/'+G.url[0] == $value.url}} class="active" {{/if}}>{{$value.title}}</a>
                 </li>
-                <li>
-                    <a href="/service"  {{if G.url[0] == 'service'}} class="active" {{/if}}>开发服务</a>
-                </li>
-                <li>
-                    <a href="/case"  {{if G.url[0] == 'case'}} class="active" {{/if}}>成功案例</a>
-                </li>
-                <li>
-                    <a href="/news"  {{if G.url[0] == 'news'}} class="active" {{/if}}>新闻资讯</a>
-                </li>
-                <li>
-                    <a href="/about"  {{if G.url[0] == 'about'}} class="active" {{/if}}>关于我们</a>
-                </li>
-                <li>
-                    <a href="/connect"  {{if G.url[0] == 'connect'}} class="active" {{/if}}>联系我们</a>
-                </li>
+                {{/each}}
             </ul>
         </div>
     </div>
