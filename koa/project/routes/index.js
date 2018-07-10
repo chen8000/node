@@ -36,7 +36,12 @@ router.get('/', async (ctx) => {
 // 开发服务service
 router.get('/service', async (ctx) => {
 
-    await ctx.render('index/service');
+    // 开发服务
+    let articleId = await DB.find('articlecate', [{"title":"开发服务"}]);
+
+    let result = await DB.find('article', [{'pid':articleId[0]._id.toString()}]);
+
+    await ctx.render('index/service', { result });
 });
 
 // 成功案例case
