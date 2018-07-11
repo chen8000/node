@@ -26,7 +26,8 @@ router.use(async (ctx, next) => {
     ctx.state.G = {
         url:splitUrl,
         nav:result
-    }
+    };
+    ctx.state.__HOST__='http://'+ctx.request.header.host;
 
     await next();
 });
