@@ -69,6 +69,19 @@ router.get('/connect', async (ctx) => {
 });
 
 
+// 富文本页面
+router.get('/service/list', async (ctx) => {
+
+    let id = ctx.query.id;
+
+    let result = await DB.find('article', [{"_id":await DB.ObjectID(id)}]);
+
+    console.log(result)
+
+    await ctx.render('index/list', { result });
+})
+
+
 
 
 module.exports = router.routes();
