@@ -6,13 +6,20 @@ const url = require('url');
 const DB = require('../module/db');
 
 
+// 子模块
+const about = require('./web/about');
+const connect = require('./web/connect');
+const index = require('./web/index');
+const news = require('./web/news');
+const service = require('./web/service');
+const casePage = require('./web/case');
+
 router.use(async (ctx, next) => {
 
-    
     let pathname=url.parse(ctx.request.url).pathname.substring(1);
     let splitUrl = pathname.split('/');
 
-    // 导航--common
+    // 渲染导航数据--common
     let result = await DB.find('nav', [{"status":"1"}, {}, {'sort':1}]);
 
     // 配置全局用户信息
@@ -24,62 +31,15 @@ router.use(async (ctx, next) => {
     await next();
 });
 
-// 首页
-router.get('/', async (ctx) => {
 
-    // 轮播图
-    let focus = await DB.find('focus', [{"status":"1"}, {}, {"sort":1}]);
+// 加载子路由
+router.use('/', index);
+router.use('/news', news);
+router.use('/about', about);
+router.use('/case', casePage);
+router.use('/service', service);
+router.use('/connect', connect);
 
-    await ctx.render('index/index', { focus });
-});
-
-// 开发服务service
-router.get('/service', async (ctx) => {
-
-    // 开发服务
-    let articleId = await DB.find('articlecate', [{"title":"开发服务"}]);
-
-    let result = await DB.find('article', [{'pid':articleId[0]._id.toString()}]);
-
-    await ctx.render('index/service', { result });
-});
-
-// 成功案例case
-router.get('/case', async (ctx) => {
-    
-    await ctx.render('index/case');
-});
-
-// 新闻资讯news
-router.get('/news', async (ctx) => {
-
-    await ctx.render('index/news');
-});
-
-// 关于我们about
-router.get('/about', async (ctx) => {
-
-    await ctx.render('index/about');
-});
-
-// 联系我们connect
-router.get('/connect', async (ctx) => {
-
-    await ctx.render('index/connect');
-});
-
-
-// 富文本页面
-router.get('/service/list', async (ctx) => {
-
-    let id = ctx.query.id;
-
-    let result = await DB.find('article', [{"_id":await DB.ObjectID(id)}]);
-
-    console.log(result)
-
-    await ctx.render('index/list', { result });
-})
 
 
 
