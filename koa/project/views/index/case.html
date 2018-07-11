@@ -28,7 +28,7 @@ APP开发</span></h2>
 
     <div class="header_title clear">
         <p >
-			{{each classification}}
+			{{each maxClassification}}
 			<a href="{{__HOST__}}/case?pid={{@$value._id}}">{{$value.title}}</a>
 			{{/each}}
         </p>
@@ -43,16 +43,16 @@ APP开发</span></h2>
     
     <div class="main">
 	    <ul class="clear">
-			<!-- {{case classification}} -->
+			{{each minClassification}}
 		    <li>
 		    	
-		    		<a href="#"><img src="index/images/successful_case/main_image1.jpg" /></a>
+		    		<a href="#"><img src="{{$value.pic}}" /></a>
 		    		
-		    		<p>新部委整合职责相继挂牌 近日都有哪些新动</p>
+		    		<p>{{$value.title}}</p>
 		    	
 		    	
 		    </li>
-		    <!-- {{/each}} -->
+		    {{/each}}
 	   
 	    
 	    </ul>
