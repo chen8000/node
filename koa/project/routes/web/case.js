@@ -29,7 +29,7 @@ router.get('/', async (ctx) => {
     // 使用$in操作符查询数据
     let minClassification = await DB.find('article', [{"pid":{$in:inArr}}]);
 
-    await ctx.render('index/case', { maxClassification, minClassification});
+    await ctx.render('index/case', { maxClassification, minClassification, tab});
 });
 
 

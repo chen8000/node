@@ -29,7 +29,7 @@ APP开发</span></h2>
     <div class="header_title clear">
         <p >
 			{{each maxClassification}}
-			<a href="{{__HOST__}}/case?pid={{@$value._id}}">{{$value.title}}</a>
+			<a {{if tab == $value._id}} style="color:orange;" {{/if}}href="{{__HOST__}}/case?pid={{@$value._id}}">{{$value.title}}</a>
 			{{/each}}
         </p>
     </div>
