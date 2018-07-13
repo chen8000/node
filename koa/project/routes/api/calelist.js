@@ -15,6 +15,15 @@ router.get('/', async (ctx) => {
 });
 
 
+router.post('/post', async (ctx) => {
+
+    let result = await DB.find('article', [{}]);
+
+    ctx.body = { result };
+
+});
+
+
 
 
 

@@ -14,6 +14,7 @@ const news = require('./web/news');
 const service = require('./web/service');
 const casePage = require('./web/case');
 
+
 router.use(async (ctx, next) => {
 
     let pathname=url.parse(ctx.request.url).pathname.substring(1);

@@ -9,8 +9,44 @@
 <body>
     <h1>hello world</h1>
 
+
+    <script src="../../../public/index/js/jquery-2.0.3.min.js"></script>
     <script>
-        
+        $(function(){
+            // get获取值
+            $.ajax({
+                url:'http://localhost:8000/api/calelist', 
+                type:'get',
+                dataType:'json',
+                success:function(res){
+                    console.log("get获取：" );
+                    console.log(res);
+                }
+            });
+
+            // post 获取
+            $.ajax({
+                url:'http://localhost:8000/api/calelist/post',
+                type:'post',
+                dataType:'json',
+                success:function(res){
+                    console.log('post获取：');
+                    console.log(res);
+                }
+            });
+
+            // 跨域   需要在app.js里配置  koa-jsonp  中间件
+            // 测试：从本地打开.html文件，在火狐浏览器里打开，获取到数据说明请求成功
+            $.ajax({
+                url:'http://localhost:8000/api/calelist?collback=fn', 
+                type:'get',
+                dataType:'jsonp',
+                success:function(res){
+                    console.log("jsonp获取：" );
+                    console.log(res);
+                }
+            });
+        })
     </script>
 </body>
 </html>
