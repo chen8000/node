@@ -11,6 +11,7 @@ const app = new koa();
 const render = require('koa-art-template');
 const sd = require('silly-datetime');
 const jsonp = require('koa-jsonp'); 
+const cors = require('koa2-cors');
 
 // 子路由模块 -admin
 const index = require('./routes/index');
@@ -47,6 +48,9 @@ app.use(static(__dirname + '/public'));
 
 // jsonp 中间件
 app.use(jsonp());
+
+// 后台允许跨域
+app.use(cors());
 
 
 
