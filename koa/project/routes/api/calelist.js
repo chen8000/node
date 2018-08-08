@@ -23,6 +23,14 @@ router.post('/post', async (ctx) => {
 
 });
 
+router.get('/info', async (ctx) => {
+
+    let result = ctx.query;
+
+    ctx.body = result;
+
+});
+
 
 
 
